@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Builder
+@Getter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
