@@ -1,10 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Err404PageComponent } from './shared/err404-page/err404-page.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'cdv',
+    loadChildren: () => import('./cdv/cdv.module').then((m) => m.CdvModule),
+  },
+  {
+    path: '404',
+    component: Err404PageComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'cdv',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: '404',
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
