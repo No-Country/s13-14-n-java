@@ -4,6 +4,8 @@ import com.latam.companerosDeViajeAPI.persistence.entities.interest.Interest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface InterestRepository extends JpaRepository<Interest, Long> {
-    Interest findByName(@Param("name")String name);
+    Optional<Interest> findByName(@Param("name")String name);
 }
