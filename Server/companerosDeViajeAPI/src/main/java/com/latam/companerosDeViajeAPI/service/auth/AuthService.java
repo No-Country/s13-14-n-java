@@ -6,6 +6,8 @@ import com.latam.companerosDeViajeAPI.dto.auth.RegisterRequestDto;
 import com.latam.companerosDeViajeAPI.exceptions.UsernameOrPasswordIncorretException;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import com.latam.companerosDeViajeAPI.persistence.repositories.user.UserRepository;
+import com.latam.companerosDeViajeAPI.service.country.CountryService;
+import com.latam.companerosDeViajeAPI.service.interest.InterestService;
 import com.latam.companerosDeViajeAPI.service.jwt.JwtService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
+    private final CountryService countryService;
+    private final InterestService interestService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+
 
 
     public AuthResponseDto login(@Valid LoginRequestDto loginRequestDto) {
@@ -42,10 +47,17 @@ public class AuthService {
 
     public AuthResponseDto register(@Valid RegisterRequestDto registerRequestDto){
         User user = new User();
-        user.setFirstName(registerRequestDto.firstName());
-        user.setLastName(registerRequestDto.Lastname());
+        user.setName(registerRequestDto.name());
         user.setEmail(registerRequestDto.email());
         user.setPhoneNumber(registerRequestDto.phoneNumber());
+        user.setAddress(registerRequestDto.address());
+        user.setGender(registerRequestDto.gender());
+        user.setCountry(countryService.findByCountryName(registerRequestDto.country()));
+        user.setInterest(registerRequestDto
+                .interest()
+                .stream()
+                .map(interestService :: findByInterestName)
+                .toList());
         user.setUsername(registerRequestDto.username());
         user.setPassword(passwordEncoder.encode(registerRequestDto.password()));
         user.setRole(registerRequestDto.role());
