@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class TravelGroupServiceImp{
+public class TravelGroupServiceImp implements TravelGroupService{
     private TravelGroupRepository travelGroupRepository;
     private JwtService jwtService;
     private UserRepository userRepository;
@@ -39,7 +39,7 @@ public class TravelGroupServiceImp{
         this.interestServiceImp = interestServiceImp;
     }
 
-
+    @Override
     @Transactional
     public TravelGroupCreatedDto createTravelGroup(TravelGroupDTO travelGroupDTO, HttpServletRequest request) {
         //Extract user from token
