@@ -11,7 +11,7 @@ import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGro
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import com.latam.companerosDeViajeAPI.persistence.repositories.travelGroup.TravelGroupRepository;
 import com.latam.companerosDeViajeAPI.persistence.repositories.user.UserRepository;
-import com.latam.companerosDeViajeAPI.service.interest.InterestServiceImp;
+import com.latam.companerosDeViajeAPI.service.interest.InterestService;
 import com.latam.companerosDeViajeAPI.service.jwt.JwtService;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,13 +30,13 @@ public class TravelGroupServiceImp implements TravelGroupService{
     private TravelGroupRepository travelGroupRepository;
     private JwtService jwtService;
     private UserRepository userRepository;
-    private InterestServiceImp interestServiceImp;
+    private InterestService interestService;
 
-    public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestServiceImp interestServiceImp) {
+    public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp) {
         this.travelGroupRepository = travelGroupRepository;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
-        this.interestServiceImp = interestServiceImp;
+        this.interestService = interestServiceImp;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class TravelGroupServiceImp implements TravelGroupService{
         validateTravelGroupData(owner, travelGroupDTO);
         //add existing interests
         for (String i: travelGroupDTO.getInterests()) {
-            if(interestServiceImp.existInterestByName(i)){
-                interests.add(interestServiceImp.findInterestByName(i));
+            if(interestService.existInterestByName(i)){
+                interests.add(interestService.findInterestByName(i));
             }
         }
         //create travel group
@@ -125,7 +125,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
 
     public boolean existOneValidInterest(List<String> interests){
         for (String s: interests) {
-            if(interestServiceImp.existInterestByName(s))
+            if(interestService.existInterestByName(s))
                 return true;
         }
         return false;

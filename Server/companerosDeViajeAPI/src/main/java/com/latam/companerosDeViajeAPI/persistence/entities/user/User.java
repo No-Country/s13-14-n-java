@@ -3,6 +3,9 @@ package com.latam.companerosDeViajeAPI.persistence.entities.user;
 import java.util.Collection;
 import java.util.List;
 
+import com.latam.companerosDeViajeAPI.persistence.entities.country.Country;
+import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
+import com.latam.companerosDeViajeAPI.utils.Gender;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
-@Table
+@Table(name ="users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +31,21 @@ public class User implements UserDetails {
     private String password;
     @Column(unique = true)
     private String email;
-    private String firstName;
-    private String LastName;
+    private String name;
+    private String address;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+    @Enumerated(EnumType.STRING)
+    @ManyToMany
+    @JoinTable(
+            name = "users_interest", //
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "interest_id")
+    )
+    private List<Interest>interest;
     @Column(unique = true)
     private String phoneNumber;
     private String profilePicture;

@@ -10,6 +10,7 @@ import lombok.experimental.UtilityClass;
 public class TravelGroupMapper {
 
     public TravelGroup travelGroupDtoToTravelGroup(TravelGroupDTO travelGroupDTO){
+
         return TravelGroup.builder()
                 .destination(travelGroupDTO.getDestination())
                 .departureDate(travelGroupDTO.getDepartureDate())

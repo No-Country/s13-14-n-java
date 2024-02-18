@@ -8,8 +8,7 @@ import lombok.Data;
 @Data
 public class TravelerDTO {
     private String username;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String profilePicture;
 
 }

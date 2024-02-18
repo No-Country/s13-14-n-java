@@ -8,8 +8,7 @@ public class TravelerMapper {
     public TravelerDTO userToTravelerDto(User user){
         return TravelerDTO.builder()
                 .username(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
+                .name(user.getName())
                 .profilePicture(user.getProfilePicture())
                 .build();
     }
