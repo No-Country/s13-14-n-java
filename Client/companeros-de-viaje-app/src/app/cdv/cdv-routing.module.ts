@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { BookingPageComponent } from './booking-page/booking-page.component';
+import { NavBarComponent } from '../components/nav-bar/nav-bar.component';
+import { FooterComponent } from '../components/footer/footer.component';
 
 const routes: Routes = [
   {
