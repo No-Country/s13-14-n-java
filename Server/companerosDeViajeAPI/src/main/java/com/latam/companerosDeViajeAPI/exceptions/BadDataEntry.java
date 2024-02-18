@@ -1,7 +1,13 @@
 package com.latam.companerosDeViajeAPI.exceptions;
 
+import lombok.Data;
+
+@Data
 public class BadDataEntry extends RuntimeException {
-    public BadDataEntry(String s) {
+    private String field;
+    public BadDataEntry(String s, String field) {
         super(s);
+        this.field= field;
     }
+
 }
