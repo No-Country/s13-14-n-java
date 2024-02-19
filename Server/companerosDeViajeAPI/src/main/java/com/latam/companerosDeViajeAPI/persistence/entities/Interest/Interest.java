@@ -1,4 +1,4 @@
-package com.latam.companerosDeViajeAPI.persistence.entities.interest;
+package com.latam.companerosDeViajeAPI.persistence.entities.Interest;
 
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import jakarta.persistence.*;

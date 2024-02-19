@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.latam.companerosDeViajeAPI.persistence.entities.country.Country;
-import com.latam.companerosDeViajeAPI.persistence.entities.interest.Interest;
+import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.utils.Gender;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.persistence.*;

@@ -1,8 +1,7 @@
 package com.latam.companerosDeViajeAPI.controller.exception;
 
 import com.latam.companerosDeViajeAPI.dto.exceptions.ErrorResponseDto;
-import com.latam.companerosDeViajeAPI.exceptions.NoSuchInterestException;
-import com.latam.companerosDeViajeAPI.exceptions.UsernameOrPasswordIncorretException;
+import com.latam.companerosDeViajeAPI.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -43,5 +42,21 @@ public class RestResponseEntityExceptionHandler {
         int indexStart = msg.indexOf(begin) + begin.length();
         int indexEnd = msg.indexOf(end, indexStart);
         return msg.substring(indexStart, indexEnd);
+    }
+
+    @ExceptionHandler(BadDataEntry.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(BadDataEntry ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
+    }
+    @ExceptionHandler(IsNotGreaterThanZeroException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(IsNotGreaterThanZeroException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
+    }
+    @ExceptionHandler(IsNotUserException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(IsNotUserException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto("user", ex.getMessage()));
     }
 }
