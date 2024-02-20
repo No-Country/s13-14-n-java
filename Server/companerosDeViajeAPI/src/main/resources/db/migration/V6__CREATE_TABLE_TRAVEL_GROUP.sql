@@ -1,5 +1,5 @@
 CREATE TABLE `travel_group` (
-  `id` BIGINT PRIMARY KEY NOT NULL,
+  `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `budget` decimal(38,2) DEFAULT NULL,
   `departure_date` datetime(6) DEFAULT NULL,
   `destination` varchar(255) DEFAULT NULL,
