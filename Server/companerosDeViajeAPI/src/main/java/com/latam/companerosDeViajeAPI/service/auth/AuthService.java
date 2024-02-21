@@ -49,6 +49,7 @@ public class AuthService {
         User user = new User();
         user.setName(registerRequestDto.name());
         user.setEmail(registerRequestDto.email());
+        user.setBirthDate(registerRequestDto.birthDate());
         user.setPhoneNumber(registerRequestDto.phoneNumber());
         user.setAddress(registerRequestDto.address());
         user.setGender(registerRequestDto.gender());

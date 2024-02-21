@@ -1,5 +1,6 @@
 package com.latam.companerosDeViajeAPI.persistence.entities.user;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String name;
+    private LocalDate birthDate;
     private String address;
     @Enumerated(EnumType.STRING)
     private Gender gender;
