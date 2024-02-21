@@ -20,4 +20,6 @@ public record UserDto(Long id, String name, String email, String phoneNumber,
                 ,user.getAddress(),user.getBirthDate(),user.getGender(),
                 user.getCountry().getName(),interest,user.getUsername(),user.getRole());
     }
+
+
 }

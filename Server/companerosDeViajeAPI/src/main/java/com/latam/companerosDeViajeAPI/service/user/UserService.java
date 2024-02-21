@@ -1,9 +1,11 @@
 package com.latam.companerosDeViajeAPI.service.user;
 
 import com.latam.companerosDeViajeAPI.dto.user.UserDto;
+import com.latam.companerosDeViajeAPI.dto.user.UserUpdateDto;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import com.latam.companerosDeViajeAPI.persistence.repositories.user.UserRepository;
+import com.latam.companerosDeViajeAPI.service.country.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,15 +20,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CountryService countryService;
 
     public UserDto getUserDetails(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(username);
-        Optional<UserDetails> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isEmpty()) {
-            throw new UsernameNotFoundException("user not found");
-        }
-        User user = (User) userOptional.get();
+
+        User user = getUser();
         List<Interest> userInterest = user.getInterest();
         List<String> interestName = new ArrayList<>();
         for (Interest interest : userInterest){
@@ -35,5 +33,26 @@ public class UserService {
 
         }
         return new UserDto(user, interestName);
+    }
+
+    public UserDto updateUser(UserUpdateDto userUpdateDto){
+        User user = getUser();
+        user.setName(userUpdateDto.name());
+        user.setEmail(userUpdateDto.email());
+        user.setPhoneNumber(userUpdateDto.phoneNumber());
+        user.setAddress(userUpdateDto.address());
+        user.setBirthDate(userUpdateDto.birthDate());
+        user.setGender(userUpdateDto.gender());
+        user.setCountry(countryService.findByCountryName(userUpdateDto.country()));
+        return getUserDetails();
+    }
+
+    private User getUser(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<UserDetails> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("user not found");
+        }
+        return  (User) userOptional.get();
     }
 }
