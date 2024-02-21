@@ -3,6 +3,7 @@ package com.latam.companerosDeViajeAPI.controller.user;
 import com.latam.companerosDeViajeAPI.dto.user.UserDto;
 import com.latam.companerosDeViajeAPI.dto.user.UserUpdateDto;
 import com.latam.companerosDeViajeAPI.service.user.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ public class UserController {
     }
     @PutMapping("/edit")
     @Transactional
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserUpdateDto userUpdateDto){
+    public ResponseEntity<UserDto> updateUser(@RequestBody @Valid UserUpdateDto userUpdateDto){
         return ResponseEntity.ok(userService.updateUser(userUpdateDto));
     }
 
