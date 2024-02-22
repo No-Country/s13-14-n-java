@@ -1,11 +1,12 @@
 package com.latam.companerosDeViajeAPI.service.TravelGroup;
 
-import com.latam.companerosDeViajeAPI.exceptions.BadDataEntry;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
+import com.latam.companerosDeViajeAPI.exceptions.BadDataEntryException;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
-import com.latam.companerosDeViajeAPI.exceptions.IsNotUserException;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
+import com.latam.companerosDeViajeAPI.exceptions.UserNotValidException;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
@@ -16,6 +17,8 @@ import com.latam.companerosDeViajeAPI.service.jwt.JwtService;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -67,36 +70,73 @@ public class TravelGroupServiceImp implements TravelGroupService{
         return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupRepository.save(travelGroup));
     }
 
+    @Override
+    public Page<TravelGroup> getTravelGroups(Pageable pageable) {
+        return travelGroupRepository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional
+    public TravelGroupInfoDto addUserToTravelGroup(Long groupId, HttpServletRequest request) {
+        User userToAdd = findUserByToken(request);
+        validateGoupById(groupId);
+        TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
+        validateAddedUserData(userToAdd, travelGroup);
+        travelGroup.getTravelers().add(userToAdd);
+        return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
+    }
+
+    private void validateGoupById(Long groupId) {
+        if(groupId==null)
+            throw new BadDataEntryException("idGroup field cannot be empty or null", "group id");
+        if(!travelGroupRepository.existsById(groupId))
+            throw new BadDataEntryException("There is no travel group with the id entered", "group id");
+    }
+
+    private void validateAddedUserData(User userToAdd, TravelGroup travelGroup) {
+        if(!isUser(userToAdd.getRole()))
+            throw new UserNotValidException("Only those with the User role can join a travel group.");
+        if(userToAdd.getId().equals(travelGroup.getOwner().getId())) {
+            throw new UserNotValidException("the user is the owner of the travel group");
+        }
+        for (User u: travelGroup.getTravelers()) {
+            if(u.getId().equals(userToAdd.getId()))
+                throw new UserNotValidException("The user is already joined to the travel group");
+        }
+
+        //TODO validate that the user is not suspended, and that the travel group is active.
+    }
+
     private void validateTravelGroupData(User owner, TravelGroupDTO travelGroupDTO) {
         //validate owner have Role_User
         if (!isUser(owner.getRole()))
-            throw new IsNotUserException("Only those with a user role can create travel groups.");
+            throw new UserNotValidException("Only those with a user role can create travel groups.");
         //validate data not blank not null
         if(travelGroupDTO.getDestination()==null||travelGroupDTO.getDestination().isBlank())
-            throw new BadDataEntry("The travel destination cannot be blank or null.", "destination");
+            throw new BadDataEntryException("The travel destination cannot be blank or null.", "destination");
         if(travelGroupDTO.getDepartureDate()==null)
-            throw new BadDataEntry("The departure date cannot be blank or null.", "departure date");
+            throw new BadDataEntryException("The departure date cannot be blank or null.", "departure date");
         if(travelGroupDTO.getReturnDate()==null)
-            throw new BadDataEntry("The return date cannot be blank or null.", "return date");
+            throw new BadDataEntryException("The return date cannot be blank or null.", "return date");
         if(travelGroupDTO.getItinerary()==null||travelGroupDTO.getItinerary().isBlank())
-            throw new BadDataEntry("The trip itinerary cannot be blank or null.", "itinerary");
+            throw new BadDataEntryException("The trip itinerary cannot be blank or null.", "itinerary");
         if(travelGroupDTO.getBudget()==null)
-            throw new BadDataEntry("The budget cannot be blank or null.", "budget");
+            throw new BadDataEntryException("The budget cannot be blank or null.", "budget");
         if(travelGroupDTO.getMinimumNumberOfMembers()==null)
-            throw new BadDataEntry("The minimum number of members cannot be blank or null.", "minimum number of members");
+            throw new BadDataEntryException("The minimum number of members cannot be blank or null.", "minimum number of members");
         //validate interests not empty
         if(travelGroupDTO.getInterests()==null||travelGroupDTO.getInterests().isEmpty())
-            throw new BadDataEntry("A travel group's interest list cannot be empty", "interests");
+            throw new BadDataEntryException("A travel group's interest list cannot be empty", "interests");
         for (String s: travelGroupDTO.getInterests()) {
             if (s.isBlank())
-                throw new BadDataEntry("At least one of the interests entered is blank", "interests");
+                throw new BadDataEntryException("At least one of the interests entered is blank", "interests");
         }
         //validate interests exists. If at least one is valid, break. If none is valid, an exception is thrown.
         if(!existOneValidInterest(travelGroupDTO.getInterests()))
-            throw new BadDataEntry("The interest entered is not valid.", "interests");
+            throw new BadDataEntryException("The interest entered is not valid.", "interests");
         //validates that the return date is after the departure date.
         if (!compareDates(travelGroupDTO.getDepartureDate(), travelGroupDTO.getReturnDate()))
-            throw new BadDataEntry("The return date of the trip must be after the departure date.", "departure date and return date");
+            throw new BadDataEntryException("The return date of the trip must be after the departure date.", "departure date and return date");
         //validates that the budget is a number greater than 0
         if (!isGreaterThanZero(travelGroupDTO.getBudget()))
             throw new IsNotGreaterThanZeroException("The budget must be greater than zero", "budget");

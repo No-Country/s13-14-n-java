@@ -5,6 +5,7 @@ import com.latam.companerosDeViajeAPI.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -44,8 +45,8 @@ public class RestResponseEntityExceptionHandler {
         return msg.substring(indexStart, indexEnd);
     }
 
-    @ExceptionHandler(BadDataEntry.class)
-    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(BadDataEntry ex, WebRequest request) {
+    @ExceptionHandler(BadDataEntryException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(BadDataEntryException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
     }
@@ -54,9 +55,15 @@ public class RestResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
     }
-    @ExceptionHandler(IsNotUserException.class)
-    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(IsNotUserException ex, WebRequest request) {
+    @ExceptionHandler(UserNotValidException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(UserNotValidException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto("user", ex.getMessage()));
     }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(MissingServletRequestParameterException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(ex.getParameterName(), ex.getMessage()));
+    }
+
 }
