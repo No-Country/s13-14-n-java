@@ -4,19 +4,24 @@ import com.latam.companerosDeViajeAPI.dto.auth.AuthResponseDto;
 import com.latam.companerosDeViajeAPI.dto.auth.LoginRequestDto;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
+import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.service.TravelGroup.TravelGroupServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("travel-group")
+@SecurityRequirement(name = "bearer-key")
 public class TravelGroupController {
     private TravelGroupServiceImp travelGroupServiceImp;
 
@@ -71,5 +76,15 @@ public class TravelGroupController {
     @PostMapping(value = "create")
     public ResponseEntity<TravelGroupCreatedDto> createTravelGroup(@RequestBody TravelGroupDTO travelGroupDTO, HttpServletRequest request) {
         return ResponseEntity.ok(travelGroupServiceImp.createTravelGroup(travelGroupDTO, request));
+    }
+
+    @GetMapping(value="find-travel-group")
+    public ResponseEntity<Page<TravelGroupInfoDto>> findTravelGroups(@PageableDefault(size = 20) Pageable pageable){
+        return ResponseEntity.ok(travelGroupServiceImp.getTravelGroups(pageable).map(TravelGroupMapper::travelGroupToTravelGroupInfoDTO));
+    }
+
+    @PostMapping(value="add-user")
+    public ResponseEntity<TravelGroupInfoDto> findTravelGroups(@RequestParam Long groupId, HttpServletRequest request){
+        return ResponseEntity.ok(travelGroupServiceImp.addUserToTravelGroup(groupId, request));
     }
 }

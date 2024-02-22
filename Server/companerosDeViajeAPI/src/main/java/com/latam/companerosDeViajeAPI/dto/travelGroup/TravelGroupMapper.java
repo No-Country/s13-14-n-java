@@ -34,5 +34,20 @@ public class TravelGroupMapper {
                 .minimumNumberOfMembers(travelGroup.getMinimumNumberOfMembers())
                 .build();
     }
+    public TravelGroupInfoDto travelGroupToTravelGroupInfoDTO(TravelGroup travelGroup){
+        return TravelGroupInfoDto.builder()
+                .id(travelGroup.getId())
+                .destination(travelGroup.getDestination())
+                .departureDate(travelGroup.getDepartureDate())
+                .returnDate(travelGroup.getReturnDate())
+                .itinerary(travelGroup.getItinerary())
+                .budget(travelGroup.getBudget())
+                .owner(TravelerMapper.userToTravelerDto(travelGroup.getOwner()))
+                .interests(travelGroup.getInterests().stream().map(Interest::getName).toList())
+                .minimumNumberOfMembers(travelGroup.getMinimumNumberOfMembers())
+                .travelers(travelGroup.getTravelers().stream().map(TravelerMapper::userToTravelerDto).toList())
+                .totalTravelers(travelGroup.getTravelers().size()+1)
+                .build();
+    }
 
 }
