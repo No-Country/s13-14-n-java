@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () => import('./cdv/cdv.module').then((m) => m.CdvModule),
   },
   {
+    path: 'book',
+    loadChildren: () =>
+      import('./booking/booking.module').then((m) => m.BookingModule),
+  },
+  {
     path: '404',
     component: Err404PageComponent,
   },

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-header-page',
+  selector: 'shared-header-page',
   templateUrl: './header-page.component.html',
-  styleUrls: ['./header-page.component.scss']
+  styleUrls: ['./header-page.component.scss'],
 })
 export class HeaderPageComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

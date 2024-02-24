@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { BookingPageComponent } from './booking-page/booking-page.component';
-import { NavBarComponent } from '../components/nav-bar/nav-bar.component';
-import { FooterComponent } from '../components/footer/footer.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { ContactComponent } from './contact/contact.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
   {
@@ -16,8 +17,20 @@ const routes: Routes = [
         component: HomePageComponent,
       },
       {
-        path: 'booking',
-        component: BookingPageComponent,
+        path: 'about-us',
+        component: AboutUsComponent,
+      },
+      {
+        path: 'contact',
+        component: ContactComponent,
+      },
+      {
+        path: 'privacy',
+        component: PrivacyPolicyComponent,
+      },
+      {
+        path: 'terms',
+        component: TermsComponent,
       },
       {
         path: '**',

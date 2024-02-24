@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { ResetPassPageComponent } from './reset-pass-page/reset-pass-page.component';
+import { ProfileRegPageComponent } from './profile-reg-page/profile-reg-page.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,14 @@ const routes: Routes = [
       {
         path: 'new-account',
         component: RegisterPageComponent,
+      },
+      {
+        path: 'profile-register',
+        component: ProfileRegPageComponent,
+      },
+      {
+        path: 'reset-pass',
+        component: ResetPassPageComponent,
       },
       {
         path: '**',

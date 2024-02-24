@@ -1,1 +1,28 @@
-<p>reset-pass-page works!</p>
+<div class="login-container">
+  <div class="p-4 shadow-2 border-round w-full lg:w-4">
+    <div class="text-center mb-5">
+      <div class="text-900 text-3xl font-medium mb-3">
+        ¿Olvido su contraseña?
+      </div>
+      <span class="text-600 font-medium line-height-3"
+        >Para recuperar su contraseña, ingrese su email y le enviaremos una
+        nueva
+      </span>
+    </div>
+
+    <div>
+      <label for="email1" class="block text-900 font-medium mb-2"
+        >Correo Email</label
+      >
+      <input id="email1" type="text" pInputText class="w-full mb-3" />
+
+      <button
+        pButton
+        pRipple
+        label="Enviar enlace"
+        routerLink="/cdv"
+        class="w-full"
+      ></button>
+    </div>
+  </div>
+</div>

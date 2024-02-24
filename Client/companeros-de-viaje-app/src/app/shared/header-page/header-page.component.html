@@ -1,1 +1,37 @@
-<p>header-page works!</p>
+<div
+  class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex align-items-center justify-content-between relative"
+>
+  <div class="w-3 font-bold flex align-items-center justify-content-center">
+    <img src="./assets/svg/log.svg" alt="Logo" class="w-12" />
+  </div>
+  <div class="w-6 font-bold flex align-items-center justify-content-center">
+    <p-button
+      label="Inicio"
+      styleClass="p-button-sm p-button-text p-button-plain"
+    ></p-button>
+    <p-button
+      label="Buscar"
+      styleClass="p-button-sm p-button-text p-button-plain"
+    ></p-button>
+    <p-button
+      label="Sobre Nosotros"
+      styleClass="p-button-sm p-button-text p-button-plain"
+    ></p-button>
+    <p-button
+      label="Contacto"
+      styleClass="p-button-sm p-button-text p-button-plain"
+    ></p-button>
+  </div>
+  <div class="w-3 font-bold flex align-items-center justify-content-around">
+    <p-button
+      label="Registrarse"
+      styleClass="p-button-sm p-button-outlined"
+      routerLink="/auth/new-account"
+    ></p-button>
+    <p-button
+      label="Iniciar Sesión"
+      styleClass="p-button-sm"
+      routerLink="/auth/login"
+    ></p-button>
+  </div>
+</div>

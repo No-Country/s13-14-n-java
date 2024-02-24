@@ -1,4 +1,133 @@
-<p>register-page works!</p>
-<a routerLink="/cdv">sign up</a>
-<hr />
-<a routerLink="/auth/login">sign in</a>
+<div
+  class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
+>
+  <div class="w-12 pb-2">
+    <div class="text-center text-900 text-3xl font-medium">Registro</div>
+  </div>
+  <div class="w-6">
+    <div
+      class="min-w-full border-round p-3 flex align-items-center justify-content-end"
+    >
+      <img src="./assets/photo/r-2.jpeg" alt="Logo" class="h-25rem" />
+    </div>
+  </div>
+  <div class="w-6 pr-8 pl-6">
+    <div class="p-4 w-full">
+      <form
+        [formGroup]="registerForm"
+        (ngSubmit)="onRegister()"
+        autocomplete="off"
+      >
+        <div class="text-800 font-medium mb-3">
+          <label for="fullName" class="block text-900 font-medium mb-2"
+            >Nombre Completo</label
+          >
+          <input
+            id="fullName"
+            type="text"
+            aria-describedby="fullName"
+            class="w-12"
+            pInputText
+            formControlName="name"
+          />
+          <small
+            id="fullName"
+            class="hidden"
+            [ngClass]="{ 'p-error block': isValidField('name') }"
+            >Por favor, ingresa tu nombre y apellido completos.</small
+          >
+        </div>
+        <div class="text-800 font-medium mb-3">
+          <label for="username" class="block text-900 font-medium mb-2"
+            >Username</label
+          >
+          <input
+            id="username"
+            type="text"
+            aria-describedby="username"
+            class="w-12"
+            pInputText
+            formControlName="username"
+          />
+          <small
+            id="username"
+            class="hidden"
+            [ngClass]="{ 'p-error block': isValidField('username') }"
+            >Es necesario llenar este campo.</small
+          >
+        </div>
+        <div class="text-800 font-medium mb-3">
+          <label for="email" class="block text-900 font-medium mb-2"
+            >Email</label
+          >
+          <input
+            id="email"
+            type="text"
+            aria-describedby="email"
+            class="w-12"
+            pInputText
+            formControlName="email"
+          />
+          <small
+            id="email"
+            class="hidden"
+            [ngClass]="{ 'p-error block': isValidField('email') }"
+            >El correo electrónico ingresado no es válido.</small
+          >
+        </div>
+        <div class="text-800 font-medium mb-3">
+          <label for="pwd" class="block text-900 font-medium mb-2"
+            >Contraseña</label
+          >
+          <p-password
+            id="pwd"
+            [toggleMask]="true"
+            styleClass="w-full"
+            [feedback]="true"
+            formControlName="pwd"
+          ></p-password>
+          <small
+            id="pwd"
+            class="hidden"
+            [ngClass]="{ 'p-error block': isValidField('pwd') }"
+            >La contraseña debe ser mayor de 8 caracteres.</small
+          >
+        </div>
+        <div class="text-800 font-medium mb-3">
+          <label for="pwd2" class="block text-900 font-medium mb-2"
+            >Confirmar Contraseña</label
+          >
+          <p-password
+            id="pwd2"
+            [toggleMask]="true"
+            styleClass="w-full"
+            formControlName="pwd2"
+          ></p-password>
+          <small
+            id="pwd2"
+            class="hidden"
+            [ngClass]="{ 'p-error block': isValidField('pwd2') }"
+            >Las contraseñas deben de ser iguales.</small
+          >
+        </div>
+        <button
+          pButton
+          pRipple
+          label="Continuar"
+          type="submit"
+          class="w-full"
+        ></button>
+      </form>
+      <div class="text-center mt-4 mb-2">
+        <span class="text-600 font-medium line-height-3"
+          >¿Ya tenes una cuenta?</span
+        >
+        <a
+          class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+          routerLink="/auth/login"
+          >Ingresar</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
