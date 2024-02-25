@@ -1,5 +1,6 @@
 package com.latam.companerosDeViajeAPI.service.TravelGroup;
 
+import com.latam.companerosDeViajeAPI.dto.user.UserDto;
 import com.latam.companerosDeViajeAPI.exceptions.BadDataEntry;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotUserException;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class TravelGroupServiceImp implements TravelGroupService{
@@ -31,6 +33,8 @@ public class TravelGroupServiceImp implements TravelGroupService{
     private JwtService jwtService;
     private UserRepository userRepository;
     private InterestService interestService;
+
+
 
     public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp) {
         this.travelGroupRepository = travelGroupRepository;
@@ -63,8 +67,14 @@ public class TravelGroupServiceImp implements TravelGroupService{
         travelGroup.setOwner(owner);
         travelGroup.setTravelers(new ArrayList<>());
         travelGroup.setInterests(interests);
-        //save travel group in the database and return the information
-        return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupRepository.save(travelGroup));
+        //save travel group in the database
+        TravelGroup travelGroupCreated =  travelGroupRepository.save(travelGroup);
+        Set<User> usersWithMatchingInterest = userRepository.findUsersWithMatchingInterestsInGroup(travelGroup);
+        for (User user : usersWithMatchingInterest) {
+            System.out.println(user.getId() + " "+ user.getName());
+        }
+        // return the information
+        return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupCreated);
     }
 
     private void validateTravelGroupData(User owner, TravelGroupDTO travelGroupDTO) {

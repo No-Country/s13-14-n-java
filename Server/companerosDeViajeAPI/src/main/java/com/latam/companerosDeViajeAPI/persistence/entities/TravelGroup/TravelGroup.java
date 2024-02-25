@@ -30,6 +30,11 @@ public class TravelGroup {
     @ManyToMany
     private List<User> travelers;
     @ManyToMany
+    @JoinTable(
+            name = "travel_group_interest", //
+            joinColumns = @JoinColumn(name = "travel_group_id"),
+            inverseJoinColumns = @JoinColumn(name = "interest_id")
+    )
     private List<Interest> interests;
     private Integer minimumNumberOfMembers;
 }
