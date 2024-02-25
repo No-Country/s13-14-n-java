@@ -7,39 +7,28 @@
 }
 
 // Botones
-.btn-footer:visited {
-    font-weight: bold;
-    text-decoration: none;
-    color: rgb(27, 27, 27);
-    padding: 10px 30px;
-    border-radius: 1000px;
-    display: inline-block;
-    transition: all .2s;
-    position:relative;
-    letter-spacing: 1px;
-    margin-left: 10px;
+// Botones del Navbar
+.button-footer {
+  background-color: rgb(00, 170, 167);
+  color: white;
+  border-radius: 10em;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 1em 2em;
+  letter-spacing: 1.5px;
+  margin: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border: 1px;
 }
 
-.btn-footer:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(00, 170, 167);
+.button-footer:hover {
+  transform: translateY(-4px) translateX(-2px);
+  box-shadow: 2px 5px 0 0 rgb(00, 170, 167);
 }
 
-.btn-footer:active {
-    transform: translateY(-3px);
-}
-
-.btn-footer::after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    border-radius: 100px;
-    top: 0;
-    left: 0;
-    position: absolute;
-    z-index: -1;
-    transition: all .3s;
+.button-footer:active {
+  transform: translateY(2px) translateX(1px);
 }
 
 // Social Links
@@ -57,7 +46,7 @@
     height: 50px;
     line-height: 50px;
     background: rgb(00, 170, 167);
-    color: #f1f1f1;
+    color: #000000;
     border-radius: 50%;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .5);
     transition: all .4s ease-in-out;

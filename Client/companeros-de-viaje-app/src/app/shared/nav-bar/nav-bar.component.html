@@ -1,24 +1,21 @@
 <!-- Navbar -->
 <nav
-  class="navbar navbar-expand-lg bg-body-tertiary rounded"
+  class="navbar navbar-expand-lg bg-body-tertiary rounded "
   aria-label="Thirteenth navbar example"
 >
-  <div class="container-fluid">
-    <img src="./assets/svg/log.svg" alt="Logo" class="w-4" />
-    <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-      <a class="navbar-brand col-lg-3 me-0" routerLink=""></a>
-      <ul class="navbar-nav col-lg-6 justify-content-lg-center">
-        <li class="nav-item">
-          <button class="button-nabvar" routerLink="">Inicio</button>
+  <div class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex md:align-items-center md:justify-content-between relative">
+    <div class="w-3 font-bold md:flex md:align-items-center md:justify-content-center">
+      <img src="./assets/svg/log.svg" alt="Logo" class="w-12" />
+    </div>
+    <div class="w-6 font-bold md:flex md:align-items-center md:justify-content-center" id="navbarsExample11">
+          <button class="button-nabvar" routerLink="./home-page">Inicio</button>
           <button class="button-nabvar" routerLink="">Buscar</button>
-          <button class="button-nabvar" routerLink="">Sobre Nosotros</button>
-          <button class="button-nabvar" routerLink="">Contacto</button>
-        </li>
-      </ul>
-      <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-        <button class="button-su-li" routerLink="">Inicar sesion</button>
-        <button class="button-su-li" routerLink="">Registrarse</button>
-      </div>
+          <button class="button-nabvar" routerLink="./about-us" >Sobre Nosotros</button>
+          <button class="button-nabvar" routerLink="./contact">Contacto</button>
+    </div>
+    <div class="w-3 font-bold md:flex md:align-items-center md:justify-content-around">
+      <button class="button-su-li" routerLink="/auth/login">Inicar sesion</button>
+      <button class="button-su-li" routerLink="/auth/new-account">Registrarse</button>
     </div>
   </div>
 </nav>
