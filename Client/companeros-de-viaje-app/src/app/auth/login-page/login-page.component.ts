@@ -25,7 +25,9 @@ export class LoginPageComponent implements OnInit {
     password: ['', [Validators.required]],
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    sessionStorage.removeItem('token');
+  }
 
   observer: Observer<any> = {
     next: (value) => {
@@ -49,7 +51,7 @@ export class LoginPageComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.loginForm.reset();
-        this.router.navigateByUrl('/cdv/home');
+        this.router.navigateByUrl('/book/home');
       },
       error: (error) => {
         this.loginForm.reset();

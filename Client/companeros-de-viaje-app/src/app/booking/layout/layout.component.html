@@ -1,1 +1,32 @@
+<div
+  class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex align-items-center justify-content-between relative"
+>
+  <div class="w-3 font-bold flex align-items-center justify-content-center">
+    <img src="./assets/svg/log.svg" alt="Logo" class="w-12" />
+  </div>
+  <div class="w-6 font-bold flex align-items-center justify-content-center">
+    <p-button
+      label="Inicio"
+      styleClass="p-button-sm p-button-text p-button-plain"
+      routerLink="/book/home"
+    ></p-button>
+    <p-button
+      label="Lista"
+      styleClass="p-button-sm p-button-text p-button-plain"
+      routerLink="/book/list"
+    ></p-button>
+    <p-button
+      label="Crear Grupo"
+      styleClass="p-button-sm p-button-text p-button-plain"
+      routerLink="/book/new-group"
+    ></p-button>
+  </div>
+  <div class="w-3 font-bold flex align-items-center justify-content-around">
+    <p-button
+      label="Logout"
+      styleClass="p-button-sm p-button-outlined"
+      routerLink="/auth/login"
+    ></p-button>
+  </div>
+</div>
 <router-outlet></router-outlet>

@@ -1,1 +1,192 @@
-<p>new-group works!</p>
+<div
+  class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
+>
+  <div class="w-12 flex align-items-center pb-3 pl-4">
+    <div class="text-left text-900 text-3xl font-medium">
+      Nuevo grupo de viaje
+    </div>
+  </div>
+  <form class="w-12 flex flex-wrap align-content-start">
+    <div class="w-6 flex flex-column px-4 pb-4">
+      <div
+        class="w-12 shadow-4 surface-card border-round-sm flex flex-column align-items-center justify-content-center"
+      >
+        <div
+          class="w-12 border-round p-3 flex align-items-center bg-primary-50"
+        >
+          <i class="pi pi-map-marker"></i>
+          <span class="px-1 font-medium text-xl">Destino</span>
+        </div>
+        <div class="w-12 border-round px-3 pb-1 flex align-items-center">
+          <div class="w-full">
+            <div class="py-1">
+              <label for="spot" class="block text-900 font-medium my-1"
+                >Lugar de destino</label
+              >
+              <input id="spot" type="text" pInputText class="w-full mb-1" />
+              <small
+                id="spot"
+                class="hidden"
+                [ngClass]="{ 'p-error block': false }"
+                >Este campo no puede estar vacío.</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="w-12 border-round px-3 pb-1 flex align-items-center">
+          <div class="w-full flex flex-wrap">
+            <div class="w-6 align-items-center justify-content-center">
+              <div class="pr-2">
+                <label for="iDate" class="block text-900 font-medium my-1"
+                  >Fecha inicio</label
+                >
+                <p-calendar
+                  aria-describedby="iDate"
+                  dateFormat="yy-mm-dd"
+                  inputId="iDate"
+                  dataType="string"
+                  styleClass="w-full"
+                ></p-calendar>
+                <small
+                  id="iDate"
+                  class="hidden"
+                  [ngClass]="{ 'p-error block': false }"
+                  >Este campo no puede estar vacío.</small
+                >
+              </div>
+            </div>
+            <div class="w-6 align-items-center justify-content-center">
+              <div class="pl-2">
+                <label for="fDate" class="block text-900 font-medium my-1"
+                  >Fecha final</label
+                >
+                <p-calendar
+                  aria-describedby="fDate"
+                  dateFormat="yy-mm-dd"
+                  inputId="fDate"
+                  dataType="string"
+                  styleClass="w-full"
+                ></p-calendar>
+                <small
+                  id="fDate"
+                  class="hidden"
+                  [ngClass]="{ 'p-error block': false }"
+                  >Este campo no puede estar vacío.</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-12 border-round px-3 pb-1 flex align-items-center">
+          <div class="w-full flex flex-wrap">
+            <div class="w-6 align-items-center justify-content-center">
+              <div class="pr-2">
+                <label for="budget" class="block text-900 font-medium my-1"
+                  >Presupuesto</label
+                >
+                <p-inputNumber
+                  mode="currency"
+                  currency="ARS"
+                  locale="es-AR"
+                  styleClass="w-full"
+                ></p-inputNumber>
+                <small
+                  id="budget"
+                  class="hidden"
+                  [ngClass]="{ 'p-error block': false }"
+                  >Este campo no puede estar vacío.</small
+                >
+              </div>
+            </div>
+            <div class="w-6 align-items-center justify-content-center">
+              <div class="pl-2">
+                <label for="people" class="block text-900 font-medium my-1"
+                  >Cantidad minima de integrantes</label
+                >
+                <p-inputNumber
+                  inputId="minmax"
+                  inputId="minmax"
+                  mode="decimal"
+                  [min]="0"
+                  [max]="20"
+                  styleClass="w-full"
+                >
+                </p-inputNumber>
+                <small
+                  id="people"
+                  class="hidden"
+                  [ngClass]="{ 'p-error block': false }"
+                  >Este campo no puede estar vacío.</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-12 border-round px-3 pb-3 flex align-items-center">
+          <div class="w-full">
+            <div class="py-1">
+              <label for="interest" class="block text-900 font-medium my-1"
+                >Intereses</label
+              >
+              <p-multiSelect
+                [options]="personal"
+                defaultLabel="Select"
+                optionLabel="name"
+                selectedItemsLabel="{0} items selected"
+                styleClass="w-full"
+              ></p-multiSelect>
+              <small
+                id="interest"
+                class="hidden"
+                [ngClass]="{ 'p-error block': false }"
+                >Este campo no puede estar vacío.</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-6 flex flex-column px-4 pb-4">
+      <div
+        class="w-12 h-full shadow-4 surface-card border-round-sm flex flex-column"
+      >
+        <div
+          class="w-12 border-round p-3 flex align-items-center bg-primary-50"
+        >
+          <i class="pi pi-paperclip"></i>
+          <span class="px-1 font-medium text-xl">Itinerario</span>
+        </div>
+        <div class="w-12 border-round px-3 pb-3 flex align-items-center">
+          <div class="w-full">
+            <div class="py-1">
+              <label for="plan" class="block text-900 font-medium my-1"
+                >Itinerario propuesto</label
+              >
+              <textarea
+                rows="10"
+                cols="30"
+                pInputTextarea
+                [autoResize]="false"
+                styleClass="w-full"
+                class="w-full"
+              ></textarea>
+              <small
+                id="plan"
+                class="hidden"
+                [ngClass]="{ 'p-error block': false }"
+                >Este campo no puede estar vacío.</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-12 font-bold flex align-items-center justify-content-around">
+      <p-button
+        label="Cancelar"
+        styleClass="p-button-sm p-button-outlined"
+      ></p-button>
+      <p-button label="Crear grupo" styleClass="p-button-sm"></p-button>
+    </div>
+  </form>
+</div>

@@ -12,16 +12,16 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   get token(): string {
-    return localStorage.getItem('token') ?? '';
+    return sessionStorage.getItem('token') ?? '';
   }
 
   saveLocalStorage(token: string) {
-    localStorage.clear();
-    localStorage.setItem('token', token);
+    sessionStorage.clear();
+    sessionStorage.setItem('token', token);
   }
 
   logout() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 
   login(formData: any) {
