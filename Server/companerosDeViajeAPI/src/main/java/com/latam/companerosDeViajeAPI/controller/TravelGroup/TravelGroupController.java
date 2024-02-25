@@ -2,10 +2,7 @@ package com.latam.companerosDeViajeAPI.controller.TravelGroup;
 
 import com.latam.companerosDeViajeAPI.dto.auth.AuthResponseDto;
 import com.latam.companerosDeViajeAPI.dto.auth.LoginRequestDto;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.*;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.service.TravelGroup.TravelGroupServiceImp;
 import io.swagger.v3.oas.annotations.Operation;
@@ -162,5 +159,14 @@ public class TravelGroupController {
     @PostMapping(value="add-user")
     public ResponseEntity<TravelGroupInfoDto> findTravelGroups(@RequestParam Long groupId, HttpServletRequest request){
         return ResponseEntity.ok(travelGroupServiceImp.addUserToTravelGroup(groupId, request));
+    }
+
+    @PutMapping(value = "leave-travel-group")
+    public ResponseEntity<TravelGroupInfoDto> leaveTravelGroup(@RequestParam Long groupId, HttpServletRequest request){
+        return ResponseEntity.ok(travelGroupServiceImp.leaveTravelGroup(groupId, request));
+    }
+    @PatchMapping(value = "owner-traveler")
+    public ResponseEntity<String> convertOwnerOnTraveler(){
+        return ResponseEntity.ok(travelGroupServiceImp.convertOwnerOnTraveler());
     }
 }

@@ -1,12 +1,10 @@
 package com.latam.companerosDeViajeAPI.service.TravelGroup;
 
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.*;
 import com.latam.companerosDeViajeAPI.exceptions.BadDataEntryException;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
 import com.latam.companerosDeViajeAPI.exceptions.UserNotValidException;
+import com.latam.companerosDeViajeAPI.exceptions.UserOutsideTheGroupException;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
@@ -65,6 +63,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
         //set data to travel group
         travelGroup.setOwner(owner);
         travelGroup.setTravelers(new ArrayList<>());
+        travelGroup.getTravelers().add(owner);
         travelGroup.setInterests(interests);
         //save travel group in the database and return the information
         return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupRepository.save(travelGroup));
@@ -86,19 +85,55 @@ public class TravelGroupServiceImp implements TravelGroupService{
         return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
     }
 
+    @Override
+    @Transactional
+    public TravelGroupInfoDto leaveTravelGroup(Long groupId, HttpServletRequest request) {
+        User user = findUserByToken(request);
+        validateGoupById(groupId);
+        TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
+        validateTravelGroupAbandonmentData(user, travelGroup);
+        travelGroup.getTravelers().removeIf(u -> user.getId().equals(u.getId()));
+        if(isOwner(user.getId(), travelGroup.getOwner().getId())&&!travelGroup.getTravelers().isEmpty()){
+                travelGroup.setOwner(travelGroup.getTravelers().get(0));
+        }
+        return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
+    }
+
+    @Override
+    @Transactional
+    public String convertOwnerOnTraveler() {
+        List<TravelGroup> travelGroups = travelGroupRepository.findAll();
+        for (TravelGroup tg: travelGroups) {
+            if(!tg.getTravelers().contains(tg.getOwner())) {
+                tg.getTravelers().add(tg.getOwner());
+                travelGroupRepository.save(tg);
+            }
+        }
+        return "updated travel group list";
+    }
+
+    private boolean isOwner(Long userId, Long ownerId) {
+        return userId.equals(ownerId);
+    }
+
+    private void validateTravelGroupAbandonmentData(User user, TravelGroup travelGroup) {
+        if(travelGroup.getTravelers().contains(user)){
+            return;
+        }
+        throw new UserOutsideTheGroupException("The user who tries to leave the travel group is not part of the travelers.", "user");
+
+    }
+
     private void validateGoupById(Long groupId) {
         if(groupId==null)
-            throw new BadDataEntryException("idGroup field cannot be empty or null", "group id");
+            throw new BadDataEntryException("idGroup field cannot be empty or null", "groupId");
         if(!travelGroupRepository.existsById(groupId))
-            throw new BadDataEntryException("There is no travel group with the id entered", "group id");
+            throw new BadDataEntryException("There is no travel group with the id entered", "groupId");
     }
 
     private void validateAddedUserData(User userToAdd, TravelGroup travelGroup) {
         if(!isUser(userToAdd.getRole()))
             throw new UserNotValidException("Only those with the User role can join a travel group.");
-        if(userToAdd.getId().equals(travelGroup.getOwner().getId())) {
-            throw new UserNotValidException("the user is the owner of the travel group");
-        }
         for (User u: travelGroup.getTravelers()) {
             if(u.getId().equals(userToAdd.getId()))
                 throw new UserNotValidException("The user is already joined to the travel group");

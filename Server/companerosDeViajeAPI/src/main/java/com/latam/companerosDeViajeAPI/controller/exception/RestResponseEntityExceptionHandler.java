@@ -46,24 +46,28 @@ public class RestResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BadDataEntryException.class)
-    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(BadDataEntryException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponseDto> BadDataEntryException(BadDataEntryException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
     }
     @ExceptionHandler(IsNotGreaterThanZeroException.class)
-    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(IsNotGreaterThanZeroException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponseDto> IsNotGreaterThanZeroException(IsNotGreaterThanZeroException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
     }
     @ExceptionHandler(UserNotValidException.class)
-    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(UserNotValidException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponseDto> UserNotValidException(UserNotValidException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto("user", ex.getMessage()));
     }
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<ErrorResponseDto> NoSuchInterestException(MissingServletRequestParameterException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponseDto> MissingServletRequestParameterException(MissingServletRequestParameterException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getParameterName(), ex.getMessage()));
     }
-
+    @ExceptionHandler(UserOutsideTheGroupException.class)
+    public ResponseEntity<ErrorResponseDto> UserOutsideTheGroupException(UserOutsideTheGroupException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
+    }
 }
