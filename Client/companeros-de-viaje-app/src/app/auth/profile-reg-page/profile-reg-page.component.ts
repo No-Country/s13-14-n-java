@@ -79,7 +79,7 @@ export class ProfileRegPageComponent implements OnInit {
     this.authService.register(body).subscribe({
       next: () => {
         this.pRegForm.reset();
-        this.router.navigateByUrl('/cdv/home');
+        this.router.navigateByUrl('/book/home');
       },
       error: (err) => {
         console.log(err);

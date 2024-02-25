@@ -7,7 +7,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
 import { NewGroupComponent } from './new-group/new-group.component';
-
+import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
 
 @NgModule({
   declarations: [
@@ -15,11 +15,8 @@ import { NewGroupComponent } from './new-group/new-group.component';
     LayoutComponent,
     ListComponent,
     DetailComponent,
-    NewGroupComponent
+    NewGroupComponent,
   ],
-  imports: [
-    CommonModule,
-    BookingRoutingModule
-  ]
+  imports: [CommonModule, BookingRoutingModule, PrimeNgModule],
 })
-export class BookingModule { }
+export class BookingModule {}
