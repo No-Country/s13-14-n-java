@@ -10,7 +10,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class TravelGroupInfoDto {
+public class TravelGroupInfoDto{
     private Long id;
     private String destination;
     private LocalDateTime departureDate;

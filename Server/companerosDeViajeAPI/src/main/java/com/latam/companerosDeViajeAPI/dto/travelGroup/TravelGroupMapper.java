@@ -46,7 +46,7 @@ public class TravelGroupMapper {
                 .interests(travelGroup.getInterests().stream().map(Interest::getName).toList())
                 .minimumNumberOfMembers(travelGroup.getMinimumNumberOfMembers())
                 .travelers(travelGroup.getTravelers().stream().map(TravelerMapper::userToTravelerDto).toList())
-                .totalTravelers(travelGroup.getTravelers().size()+1)
+                .totalTravelers(travelGroup.getTravelers().size())
                 .build();
     }
 

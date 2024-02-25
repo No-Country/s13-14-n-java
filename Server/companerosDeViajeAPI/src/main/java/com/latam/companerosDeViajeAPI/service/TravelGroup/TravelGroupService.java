@@ -14,4 +14,8 @@ public interface TravelGroupService {
     Page<TravelGroup> getTravelGroups(Pageable pageable);
 
     TravelGroupInfoDto addUserToTravelGroup(Long groupId, HttpServletRequest request);
+
+    TravelGroupInfoDto leaveTravelGroup(Long groupId, HttpServletRequest request);
+
+    String convertOwnerOnTraveler();
 }
