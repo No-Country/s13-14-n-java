@@ -70,4 +70,10 @@ public class RestResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
     }
+
+    @ExceptionHandler(NoSuchNotificationException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchNotificationException(NoSuchNotificationException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto("Notification", ex.getMessage()));
+    }
 }

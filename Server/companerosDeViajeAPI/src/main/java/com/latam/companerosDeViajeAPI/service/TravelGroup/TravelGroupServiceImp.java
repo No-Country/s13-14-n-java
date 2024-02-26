@@ -15,6 +15,7 @@ import com.latam.companerosDeViajeAPI.persistence.repositories.travelGroup.Trave
 import com.latam.companerosDeViajeAPI.persistence.repositories.user.UserRepository;
 import com.latam.companerosDeViajeAPI.service.interest.InterestService;
 import com.latam.companerosDeViajeAPI.service.jwt.JwtService;
+import com.latam.companerosDeViajeAPI.service.user.UserService;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -36,12 +37,15 @@ public class TravelGroupServiceImp implements TravelGroupService{
     private JwtService jwtService;
     private UserRepository userRepository;
     private InterestService interestService;
+    private UserService userService;
 
-    public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp) {
+    public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp, UserService userService) {
         this.travelGroupRepository = travelGroupRepository;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.interestService = interestServiceImp;
+        this.userService = userService;
+
     }
 
     @Override
@@ -69,13 +73,11 @@ public class TravelGroupServiceImp implements TravelGroupService{
         travelGroup.setTravelers(new ArrayList<>());
         travelGroup.getTravelers().add(owner);
         travelGroup.setInterests(interests);
+        //save travelGroup
         TravelGroup travelGroupCreated =  travelGroupRepository.save(travelGroup);
-        //find users with matching interest for this travel group
-        Set<User> usersWithMatchingInterest = userRepository.findUsersWithMatchingInterestsInGroup(travelGroup);
-        //TODO method to notification all users with matching interest
-        for (User user : usersWithMatchingInterest) {
-            System.out.println(user.getId() + " "+ user.getName());
-        }
+
+        userService.SendNotificationToAllUsersWithMatchingInterestInTravelGroupCreated(travelGroupCreated);
+
         // return the information
         return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupCreated);
 
