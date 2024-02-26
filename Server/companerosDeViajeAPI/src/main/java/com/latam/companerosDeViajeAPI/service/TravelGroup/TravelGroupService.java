@@ -3,6 +3,7 @@ package com.latam.companerosDeViajeAPI.service.TravelGroup;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.UpdateTravelGroupInfoDto;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
@@ -18,4 +19,6 @@ public interface TravelGroupService {
     TravelGroupInfoDto leaveTravelGroup(Long groupId, HttpServletRequest request);
 
     String convertOwnerOnTraveler();
+
+    TravelGroupInfoDto updateTravelGroup(Long groupId, HttpServletRequest request, UpdateTravelGroupInfoDto updateTravelGroupInfoDto);
 }
