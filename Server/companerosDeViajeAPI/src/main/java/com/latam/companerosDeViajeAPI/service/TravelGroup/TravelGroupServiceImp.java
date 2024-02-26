@@ -1,9 +1,12 @@
 package com.latam.companerosDeViajeAPI.service.TravelGroup;
 
-import com.latam.companerosDeViajeAPI.dto.travelGroup.*;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
 import com.latam.companerosDeViajeAPI.exceptions.BadDataEntryException;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
-import com.latam.companerosDeViajeAPI.exceptions.UserNotValidException;
+import com.latam.companerosDeViajeAPI.exceptions.*;
 import com.latam.companerosDeViajeAPI.exceptions.UserOutsideTheGroupException;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
@@ -19,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -65,8 +69,16 @@ public class TravelGroupServiceImp implements TravelGroupService{
         travelGroup.setTravelers(new ArrayList<>());
         travelGroup.getTravelers().add(owner);
         travelGroup.setInterests(interests);
-        //save travel group in the database and return the information
-        return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupRepository.save(travelGroup));
+        TravelGroup travelGroupCreated =  travelGroupRepository.save(travelGroup);
+        //find users with matching interest for this travel group
+        Set<User> usersWithMatchingInterest = userRepository.findUsersWithMatchingInterestsInGroup(travelGroup);
+        //TODO method to notification all users with matching interest
+        for (User user : usersWithMatchingInterest) {
+            System.out.println(user.getId() + " "+ user.getName());
+        }
+        // return the information
+        return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupCreated);
+
     }
 
     @Override
