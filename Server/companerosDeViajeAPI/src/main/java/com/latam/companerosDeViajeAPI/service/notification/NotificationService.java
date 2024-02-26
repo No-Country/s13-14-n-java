@@ -41,7 +41,7 @@ public class NotificationService {
         }
     }
 
-    public Integer getUnreadNotificationCountForUser() {
+    public Integer getUnreadNotificationCountByUser() {
         User user = userService.getUser();
         List<Notification> UnreadUserNotifications = notificationRepository.findByUserAndStatusNotRead(user);
         return UnreadUserNotifications.size();

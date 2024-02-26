@@ -33,6 +33,6 @@ public class NotificationController {
 
     @GetMapping("/count")
     public ResponseEntity<Integer> getUnreadNotificationCount(){
-        return ResponseEntity.ok(notificationService.getUnreadNotificationCountForUser());
+        return ResponseEntity.ok(notificationService.getUnreadNotificationCountByUser());
     }
 }
