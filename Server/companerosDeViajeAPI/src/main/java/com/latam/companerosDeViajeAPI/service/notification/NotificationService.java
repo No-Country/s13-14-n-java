@@ -43,7 +43,7 @@ public class NotificationService {
 
     public Integer getUnreadNotificationCountForUser() {
         User user = userService.getUser();
-        List<Notification> UnreadUserNotifications = notificationRepository.findByUserAndStatus(user, Status.NOTREAD);
+        List<Notification> UnreadUserNotifications = notificationRepository.findByUserAndStatusNotRead(user);
         return UnreadUserNotifications.size();
     }
     public String MarkNotificationAsRead(Long NotificationId){
@@ -55,7 +55,7 @@ public class NotificationService {
             throw new NoSuchNotificationException("This notification does´not exist");
         }
         notification.setStatus(Status.READ);
-        return " Status changed";
+        return "Status changed";
     }
 
     public Page<NotificationDto> getNotificationsByUser(Pageable pageable){
@@ -64,6 +64,8 @@ public class NotificationService {
     }
 
 
-
-
+    public Page<NotificationDto> getNotificationsByUserAndStatus(Status status, Pageable pageable) {
+        User user = userService.getUser();
+        return notificationRepository.findByUserAndStatus(user,status,pageable).map(NotificationDto :: new);
+    }
 }
