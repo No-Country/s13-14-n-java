@@ -6,7 +6,7 @@ import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
 import com.latam.companerosDeViajeAPI.exceptions.BadDataEntryException;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
-import com.latam.companerosDeViajeAPI.exceptions.*;
+import com.latam.companerosDeViajeAPI.exceptions.UserNotValidException;
 import com.latam.companerosDeViajeAPI.exceptions.UserOutsideTheGroupException;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
@@ -15,7 +15,7 @@ import com.latam.companerosDeViajeAPI.persistence.repositories.travelGroup.Trave
 import com.latam.companerosDeViajeAPI.persistence.repositories.user.UserRepository;
 import com.latam.companerosDeViajeAPI.service.interest.InterestService;
 import com.latam.companerosDeViajeAPI.service.jwt.JwtService;
-import com.latam.companerosDeViajeAPI.service.user.UserService;
+import com.latam.companerosDeViajeAPI.service.notification.NotificationService;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -37,14 +37,15 @@ public class TravelGroupServiceImp implements TravelGroupService{
     private JwtService jwtService;
     private UserRepository userRepository;
     private InterestService interestService;
-    private UserService userService;
+    private NotificationService notificationService;
 
-    public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp, UserService userService) {
+
+    public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp, NotificationService notificationService) {
         this.travelGroupRepository = travelGroupRepository;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
         this.interestService = interestServiceImp;
-        this.userService = userService;
+        this.notificationService = notificationService;
 
     }
 
@@ -75,9 +76,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
         travelGroup.setInterests(interests);
         //save travelGroup
         TravelGroup travelGroupCreated =  travelGroupRepository.save(travelGroup);
-
-        userService.SendNotificationToAllUsersWithMatchingInterestInTravelGroupCreated(travelGroupCreated);
-
+        notificationService.SendNotificationToAllUsersWithMatchingInterestInTravelGroupCreated(travelGroupCreated);
         // return the information
         return TravelGroupMapper.travelGroupToTravelGroupCreated(travelGroupCreated);
 
