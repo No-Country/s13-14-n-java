@@ -1,5 +1,6 @@
 package com.latam.companerosDeViajeAPI.service.TravelGroup;
 
+
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
@@ -8,6 +9,8 @@ import com.latam.companerosDeViajeAPI.exceptions.BadDataEntryException;
 import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
 import com.latam.companerosDeViajeAPI.exceptions.UserNotValidException;
 import com.latam.companerosDeViajeAPI.exceptions.UserOutsideTheGroupException;
+import com.latam.companerosDeViajeAPI.dto.travelGroup.*;
+import com.latam.companerosDeViajeAPI.exceptions.*;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
@@ -125,6 +128,93 @@ public class TravelGroupServiceImp implements TravelGroupService{
         return "updated travel group list";
     }
 
+    @Override
+    @Transactional
+    public TravelGroupInfoDto updateTravelGroup(Long groupId, HttpServletRequest request, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {
+        User user = findUserByToken(request);
+        validateGoupById(groupId);
+        TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
+        validateTravelGroupUpdateData(user, travelGroup, updateTravelGroupInfoDto);
+        updateTravelGroupInfo(travelGroup, updateTravelGroupInfoDto);
+
+        return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
+    }
+
+    private void updateTravelGroupInfo(TravelGroup travelGroup, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {
+        if(updateTravelGroupInfoDto.getDepartureDate()!=null){
+            travelGroup.setDepartureDate(updateTravelGroupInfoDto.getDepartureDate());
+        }
+        if(updateTravelGroupInfoDto.getReturnDate()!=null){
+            travelGroup.setReturnDate(updateTravelGroupInfoDto.getReturnDate());
+        }
+        if(updateTravelGroupInfoDto.getItinerary()!=null&&!updateTravelGroupInfoDto.getItinerary().isBlank()){
+            travelGroup.setItinerary(updateTravelGroupInfoDto.getItinerary());
+        }
+        if(updateTravelGroupInfoDto.getBudget()!=null){
+            travelGroup.setBudget(updateTravelGroupInfoDto.getBudget());
+        }
+        if(updateTravelGroupInfoDto.getInterests()!=null){
+            List<Interest> interests = new ArrayList<>();
+            Set<String> temp = new HashSet<String>(updateTravelGroupInfoDto.getInterests());
+            updateTravelGroupInfoDto.getInterests().clear();
+            updateTravelGroupInfoDto.getInterests().addAll(temp);
+            for (String i: updateTravelGroupInfoDto.getInterests()) {
+                if(interestService.existInterestByName(i)){
+                    interests.add(interestService.findInterestByName(i));
+                }
+            }
+            travelGroup.setInterests(interests);
+        }
+        if(updateTravelGroupInfoDto.getMinimumNumberOfMembers()!=null){
+            travelGroup.setMinimumNumberOfMembers(updateTravelGroupInfoDto.getMinimumNumberOfMembers());
+        }
+
+
+    }
+
+    private void validateTravelGroupUpdateData(User user, TravelGroup travelGroup, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {
+        if (!isOwner(user.getId(), travelGroup.getOwner().getId())){
+            throw  new IsNotOwnerException("Only the owner of a travel group can update their information.", "user");
+        }
+        LocalDateTime newDepartureDate = travelGroup.getDepartureDate();
+        LocalDateTime newReturnDate = travelGroup.getReturnDate();
+        boolean testDates= false;
+        if(updateTravelGroupInfoDto.getDepartureDate()!=null){
+            newDepartureDate=updateTravelGroupInfoDto.getDepartureDate();
+            testDates=true;
+        }
+        if(updateTravelGroupInfoDto.getReturnDate()!=null){
+            newReturnDate=updateTravelGroupInfoDto.getReturnDate();
+            testDates=true;
+        }
+        if(testDates){
+            if(!compareDates(newDepartureDate, newReturnDate)){
+                throw new BadDataEntryException("The return date of the trip must be after the departure date.", "departureDate, returnDate");
+            }
+        }
+        if(updateTravelGroupInfoDto.getItinerary()!=null){
+            if(updateTravelGroupInfoDto.getItinerary().isBlank()){
+                throw new BadDataEntryException("The trip itinerary cannot be blank or null.", "itinerary");
+            }
+        }
+        if(updateTravelGroupInfoDto.getBudget()!=null){
+            if (!isGreaterThanZero(updateTravelGroupInfoDto.getBudget()))
+                throw new IsNotGreaterThanZeroException("The budget must be greater than zero", "budget");
+        }
+        if(updateTravelGroupInfoDto.getMinimumNumberOfMembers()!=null){
+            if (!isGreaterThanZero(BigDecimal.valueOf(updateTravelGroupInfoDto.getMinimumNumberOfMembers()))) {
+                throw new IsNotGreaterThanZeroException("The minimum number of members of a travel group must be greater than zero.", "minimum number of members");
+            }
+        }
+        if(updateTravelGroupInfoDto.getInterests()!=null){
+           if(!existOneValidInterest(updateTravelGroupInfoDto.getInterests())){
+               throw new BadDataEntryException("The interest list must include at least one valid name.", "interests");
+           }
+        }
+
+
+    }
+
     private boolean isOwner(Long userId, Long ownerId) {
         return userId.equals(ownerId);
     }
@@ -181,7 +271,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
         }
         //validate interests exists. If at least one is valid, break. If none is valid, an exception is thrown.
         if(!existOneValidInterest(travelGroupDTO.getInterests()))
-            throw new BadDataEntryException("The interest entered is not valid.", "interests");
+            throw new BadDataEntryException("The interest list must include at least one valid name.", "interests");
         //validates that the return date is after the departure date.
         if (!compareDates(travelGroupDTO.getDepartureDate(), travelGroupDTO.getReturnDate()))
             throw new BadDataEntryException("The return date of the trip must be after the departure date.", "departure date and return date");
