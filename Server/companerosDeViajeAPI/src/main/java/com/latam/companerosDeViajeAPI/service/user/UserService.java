@@ -3,6 +3,7 @@ package com.latam.companerosDeViajeAPI.service.user;
 import com.latam.companerosDeViajeAPI.dto.user.UserDto;
 import com.latam.companerosDeViajeAPI.dto.user.UserUpdateDto;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
+import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import com.latam.companerosDeViajeAPI.persistence.repositories.user.UserRepository;
 import com.latam.companerosDeViajeAPI.service.country.CountryService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +56,11 @@ public class UserService {
         return getUserDetails();
     }
 
+    public void getUsersWithMatchingInterestInTravelGroupCreated(TravelGroup travelGroup){
+        Set<User> usersWithMatchingInterests =  userRepository.findUsersWithMatchingInterestsInGroup(travelGroup);
+
+    }
+
 
     private User getUser(){
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -63,4 +70,6 @@ public class UserService {
         }
         return  (User) userOptional.get();
     }
+
+
 }
