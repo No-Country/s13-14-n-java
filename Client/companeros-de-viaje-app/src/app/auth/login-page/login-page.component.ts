@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormValidatorService } from '../service/form-validator.service';
 import { Observer } from 'rxjs';
 import { AuthService } from '../service/auth.service';
+import { ToastService } from '../../core/service/toast.service';
 
 @Component({
   selector: 'app-login-page',
@@ -17,7 +18,8 @@ export class LoginPageComponent implements OnInit {
     private registerService: RegisterService,
     private router: Router,
     private formValidator: FormValidatorService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) {}
 
   public loginForm: FormGroup = this.fb.group({
@@ -51,10 +53,22 @@ export class LoginPageComponent implements OnInit {
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.loginForm.reset();
+        this.toastService.showToast(
+          'success',
+          'Service Message',
+          'Inicio de sesión exitoso.'
+        );
         this.router.navigateByUrl('/book/home');
       },
       error: (error) => {
+        console.log('eerr');
+
         this.loginForm.reset();
+        this.toastService.showToast(
+          'error',
+          'Service Message',
+          'Los datos ingresados no son válidos.'
+        );
       },
     });
   }
