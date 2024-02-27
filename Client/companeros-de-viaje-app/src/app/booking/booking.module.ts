@@ -8,6 +8,7 @@ import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
     DetailComponent,
     NewGroupComponent,
   ],
-  imports: [CommonModule, BookingRoutingModule, PrimeNgModule],
+  imports: [CommonModule, BookingRoutingModule, PrimeNgModule, ReactiveFormsModule],
 })
 export class BookingModule {}

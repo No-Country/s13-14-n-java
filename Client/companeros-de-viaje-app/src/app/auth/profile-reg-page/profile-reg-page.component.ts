@@ -66,7 +66,6 @@ export class ProfileRegPageComponent implements OnInit {
       this.markDirty();
       return;
     }
-    console.log(JSON.stringify(this.pRegForm.value));
 
     const body = {
       ...this.gCredential,

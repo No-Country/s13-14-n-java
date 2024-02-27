@@ -6,7 +6,12 @@
       Nuevo grupo de viaje
     </div>
   </div>
-  <form class="w-12 flex flex-wrap align-content-start">
+  <form
+    class="w-12 flex flex-wrap align-content-start"
+    autocomplete="off"
+    [formGroup]="newGrpForm"
+    (submit)="onSubmit()"
+  >
     <div class="w-6 flex flex-column px-4 pb-4">
       <div
         class="w-12 shadow-4 surface-card border-round-sm flex flex-column align-items-center justify-content-center"
@@ -23,11 +28,17 @@
               <label for="spot" class="block text-900 font-medium my-1"
                 >Lugar de destino</label
               >
-              <input id="spot" type="text" pInputText class="w-full mb-1" />
+              <input
+                id="spot"
+                type="text"
+                pInputText
+                class="w-full mb-1"
+                formControlName="spot"
+              />
               <small
                 id="spot"
                 class="hidden"
-                [ngClass]="{ 'p-error block': false }"
+                [ngClass]="{ 'p-error block': isValidField('spot') }"
                 >Este campo no puede estar vacío.</small
               >
             </div>
@@ -46,11 +57,12 @@
                   inputId="iDate"
                   dataType="string"
                   styleClass="w-full"
+                  formControlName="iDate"
                 ></p-calendar>
                 <small
                   id="iDate"
                   class="hidden"
-                  [ngClass]="{ 'p-error block': false }"
+                  [ngClass]="{ 'p-error block': isValidField('iDate') }"
                   >Este campo no puede estar vacío.</small
                 >
               </div>
@@ -66,11 +78,12 @@
                   inputId="fDate"
                   dataType="string"
                   styleClass="w-full"
+                  formControlName="fDate"
                 ></p-calendar>
                 <small
                   id="fDate"
                   class="hidden"
-                  [ngClass]="{ 'p-error block': false }"
+                  [ngClass]="{ 'p-error block': isValidField('fDate') }"
                   >Este campo no puede estar vacío.</small
                 >
               </div>
@@ -89,11 +102,12 @@
                   currency="ARS"
                   locale="es-AR"
                   styleClass="w-full"
+                  formControlName="budget"
                 ></p-inputNumber>
                 <small
                   id="budget"
                   class="hidden"
-                  [ngClass]="{ 'p-error block': false }"
+                  [ngClass]="{ 'p-error block': isValidField('budget') }"
                   >Este campo no puede estar vacío.</small
                 >
               </div>
@@ -110,12 +124,13 @@
                   [min]="0"
                   [max]="20"
                   styleClass="w-full"
+                  formControlName="people"
                 >
                 </p-inputNumber>
                 <small
                   id="people"
                   class="hidden"
-                  [ngClass]="{ 'p-error block': false }"
+                  [ngClass]="{ 'p-error block': isValidField('people') }"
                   >Este campo no puede estar vacío.</small
                 >
               </div>
@@ -129,16 +144,17 @@
                 >Intereses</label
               >
               <p-multiSelect
-                [options]="personal"
+                [options]="interests"
                 defaultLabel="Select"
                 optionLabel="name"
                 selectedItemsLabel="{0} items selected"
                 styleClass="w-full"
+                formControlName="interest"
               ></p-multiSelect>
               <small
                 id="interest"
                 class="hidden"
-                [ngClass]="{ 'p-error block': false }"
+                [ngClass]="{ 'p-error block': isValidField('interest') }"
                 >Este campo no puede estar vacío.</small
               >
             </div>
@@ -169,11 +185,12 @@
                 [autoResize]="false"
                 styleClass="w-full"
                 class="w-full"
+                formControlName="plan"
               ></textarea>
               <small
                 id="plan"
                 class="hidden"
-                [ngClass]="{ 'p-error block': false }"
+                [ngClass]="{ 'p-error block': isValidField('plan') }"
                 >Este campo no puede estar vacío.</small
               >
             </div>
@@ -186,7 +203,11 @@
         label="Cancelar"
         styleClass="p-button-sm p-button-outlined"
       ></p-button>
-      <p-button label="Crear grupo" styleClass="p-button-sm"></p-button>
+      <p-button
+        type="submit"
+        label="Crear grupo"
+        styleClass="p-button-sm"
+      ></p-button>
     </div>
   </form>
 </div>
