@@ -81,6 +81,14 @@ public class RestResponseEntityExceptionHandler {
                 .body(new ErrorResponseDto(ex.getField(), ex.getMessage()));
     }
 
+
+    @ExceptionHandler(NoSuchNotificationException.class)
+    public ResponseEntity<ErrorResponseDto> NoSuchNotificationException(NoSuchNotificationException ex, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto("Notification", ex.getMessage()));
+    }
+}
+
     @ExceptionHandler(IsNotOwnerException.class)
     public ResponseEntity<ErrorResponseDto> IsNotOwnerException(IsNotOwnerException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -111,3 +119,4 @@ public class RestResponseEntityExceptionHandler {
     }
 
 }
+

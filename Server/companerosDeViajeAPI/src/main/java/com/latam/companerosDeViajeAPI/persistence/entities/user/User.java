@@ -1,11 +1,8 @@
 package com.latam.companerosDeViajeAPI.persistence.entities.user;
 
-import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-
-import com.latam.companerosDeViajeAPI.persistence.entities.country.Country;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
+import com.latam.companerosDeViajeAPI.persistence.entities.country.Country;
+import com.latam.companerosDeViajeAPI.persistence.entities.notification.Notification;
 import com.latam.companerosDeViajeAPI.utils.Gender;
 import com.latam.companerosDeViajeAPI.utils.Role;
 import jakarta.persistence.*;
@@ -13,6 +10,10 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -52,6 +53,8 @@ public class User implements UserDetails {
     private String phoneNumber;
     private String profilePicture;
     @Enumerated(EnumType.STRING)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Notification> notification;
     private Role role;
 
     @Override

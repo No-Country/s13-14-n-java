@@ -1,5 +1,6 @@
 package com.latam.companerosDeViajeAPI.persistence.entities.Interest;
 
+import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
 import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,4 +22,6 @@ public class Interest {
     private String name;
     @ManyToMany(mappedBy = "interest") //
     private List<User> users;
+    @ManyToMany(mappedBy = "interests")
+    private List<TravelGroup> travelGroup;
 }

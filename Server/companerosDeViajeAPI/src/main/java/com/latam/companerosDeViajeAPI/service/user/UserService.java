@@ -53,9 +53,7 @@ public class UserService {
                 .toList());
         return getUserDetails();
     }
-
-
-    private User getUser(){
+    public User getUser(){
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<UserDetails> userOptional = userRepository.findByUsername(username);
         if (userOptional.isEmpty()) {
@@ -63,4 +61,6 @@ public class UserService {
         }
         return  (User) userOptional.get();
     }
+
+
 }
