@@ -86,8 +86,57 @@ public class TravelGroupServiceImp implements TravelGroupService{
     }
 
     @Override
-    public Page<TravelGroup> getTravelGroups(Pageable pageable) {
+    public Page<TravelGroup> findTravelGroups(Pageable pageable, String destination
+            , LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget) {
+        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget)){
+            return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDateAndBudget(pageable, destination, departureDate, returnDate, budget);
+        }
+        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate)){
+            return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDate(pageable, destination, departureDate, returnDate);
+        }
+        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(budget)){
+            return travelGroupRepository.findByDestinationAndDepartureDateAndBudget(pageable, destination, departureDate, budget);
+        }
+        if(isNotNull(destination) && isNotNull(returnDate) && isNotNull(budget)){
+            return travelGroupRepository.findByDestinationAndReturnDateAndBudget(pageable, destination, returnDate, budget);
+        }
+        if(isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget)){
+            return travelGroupRepository.findByDepartureDateAndReturnDateAndBudget(pageable , departureDate, returnDate, budget);
+        }
+        if(isNotNull(destination) && isNotNull(departureDate)){
+            return travelGroupRepository.findByDestinationAndDepartureDate(pageable, destination, departureDate);
+        }
+        if(isNotNull(destination) && isNotNull(returnDate)){
+            return travelGroupRepository.findByDestinationAndReturnDate(pageable, destination, returnDate);
+        }
+        if(isNotNull(destination) && isNotNull(budget)){
+            return travelGroupRepository.findByDestinationAndBudget(pageable, destination, budget);
+        }
+        if(isNotNull(departureDate) && isNotNull(returnDate)){
+            return travelGroupRepository.findByDepartureDateAndReturnDate(pageable, departureDate, returnDate);
+        }
+        if(isNotNull(departureDate) && isNotNull(budget)){
+            return travelGroupRepository.findByDepartureDateAndBudget(pageable, departureDate, budget);
+        }
+        if(isNotNull(returnDate) && isNotNull(budget)){
+            return travelGroupRepository.findByReturnDateAndBudget(pageable, returnDate, budget);
+        }
+        if(isNotNull(destination)){
+            return travelGroupRepository.findByDestination(pageable, destination);
+        }
+        if(isNotNull(departureDate)){
+            return travelGroupRepository.findByDepartureDate(pageable, departureDate);
+        }
+        if(isNotNull(returnDate)){
+            return travelGroupRepository.findByReturnDate(pageable, returnDate);
+        }
+        if(isNotNull(budget)){
+            return travelGroupRepository.findByBudget(pageable, budget);
+        }
         return travelGroupRepository.findAll(pageable);
+    }
+    public boolean isNotNull(Object o){
+        return o != null;
     }
 
     @Override
