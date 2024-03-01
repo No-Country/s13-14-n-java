@@ -79,7 +79,7 @@ public class TravelGroupController {
                     @Parameter(name = "page", description = "Número de página, comenzando en 0. Si no se coloca nada, el valor por defecto es 0. " , example = "1"),
                     @Parameter(name = "size", description = "Cantidad de Grupos de viaje que desea recibir en cada página. Si no se coloca nada, el valor por defecto es 20.  " , example = "20"),
                     @Parameter(name = "sort", description = "Atributo con el cual se desea ordenar la lista recibida. Los parámetros posibles son id, destination, departureDate, returnDate, budget, itinerary, minimumNumberOfMembers. La lista puede ordenarse de modo ascendente, para lo cual hay que agregar \",ASC\" luego del valor del parámetro, o descendente, para lo cual hay que agregar \",DESC\" luego del valor del parámetro. Si no se coloca nada, el valor por defecto es id en orden ascendente.  " , example = "id"),
-                    @Parameter(name = "destintation", description = "Opcional. SI se ingresa, se buscará los grupos de viaje cuyos destinos que coincidan exactamente con la palabra ingresada" , example = "Cuba"),
+                    @Parameter(name = "destination", description = "Opcional. SI se ingresa, se buscará los grupos de viaje cuyos destinos que coincidan exactamente con la palabra ingresada" , example = "Cuba"),
                     @Parameter(name = "departureDate", description = "Opcional. Si se ingresa, se buscará los grupos de viaje que tengan exactamente la fecha de salida ingresada" , example = "2024-05-02T00:00:00"),
                     @Parameter(name = "returnDate", description = "Opcional. Si se ingresa, se buscará los grupos de viaje que tengan exactamente la fecha de regreso ingresada" , example = "2024-05-02T00:00:00"),
                     @Parameter(name = "budget", description = "Opcional. Si se ingresa, se buscará los grupos de viaje que tengan exactamente el monto del presupuesto ingresado" , example = "5000"),
@@ -242,11 +242,45 @@ public class TravelGroupController {
                             description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
                             content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
                             ))
-                    )}
-
-    )
+                    )})
     @PutMapping(value = "update-travel-group")
     public ResponseEntity<TravelGroupInfoDto> updateTravelGroup(@RequestParam Long groupId, HttpServletRequest request, @RequestBody UpdateTravelGroupInfoDto updateTravelGroupInfoDto){
         return ResponseEntity.ok(travelGroupServiceImp.updateTravelGroup(groupId, request, updateTravelGroupInfoDto));
+    }
+
+    @Operation(
+            summary = "Endpoint que retorna todos los datos de un grupo de viaje(Travel Group) según su id",
+            description = "Endpoint que retorna todos los datos de un grupo de viaje(Travel Group) según su id. Este endpoint solo puede ser consultado por usuarios registrados y logueados, y requiere para su autenticación del ingreso del JWT que se obtiene al loguearse.",
+            method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "Campo numérico donde debe enviarse el id del grupo que se desea obtener. Valida que el id no sea nulo y que exista un travel group con dicho id." , example = "1"),
+            },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Success. En caso de éxito, retorna un objeto con la información del grupo de viaje. ",
+                            content = @Content(schema = @Schema(implementation = TravelGroupInfoDto.class,
+                                    contentMediaType = MediaType.APPLICATION_JSON_VALUE
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad Request. En caso de error en el ingreso de datos, devuelve, en la mayoría de los casos, un Json que " +
+                                    "contiene el campo del error y una descripción del mismo. " +
+                                    "Valida que el id ingresado no esté vacío o sea nulo y que exista un grupo con el id ingresado por parámetro.",
+                            content = @Content(schema = @Schema(implementation = ErrorResponseDto.class,
+                                    contentMediaType = MediaType.APPLICATION_JSON_VALUE
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    )}
+    )
+    @GetMapping("/{id}")
+    public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@PathVariable Long id){
+        return ResponseEntity.ok(travelGroupServiceImp.findTravelGroupById(id));
     }
 }

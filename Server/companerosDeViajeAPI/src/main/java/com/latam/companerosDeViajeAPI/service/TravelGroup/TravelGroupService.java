@@ -24,4 +24,6 @@ public interface TravelGroupService {
     String convertOwnerOnTraveler();
 
     TravelGroupInfoDto updateTravelGroup(Long groupId, HttpServletRequest request, UpdateTravelGroupInfoDto updateTravelGroupInfoDto);
+
+    TravelGroupInfoDto findTravelGroupById(Long id);
 }
