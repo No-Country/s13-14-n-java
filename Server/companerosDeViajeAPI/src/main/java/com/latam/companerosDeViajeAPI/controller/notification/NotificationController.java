@@ -31,8 +31,8 @@ public class NotificationController {
 
     }
 
-    @GetMapping("/count")
-    public ResponseEntity<Integer> getUnreadNotificationCount(){
-        return ResponseEntity.ok(notificationService.getUnreadNotificationCountByUser());
-    }
+//    @GetMapping("/count")
+//    public ResponseEntity<Integer> getUnreadNotificationCount(){
+//        return ResponseEntity.ok(notificationService.getUnreadNotificationCountByUser());
+//    }
 }

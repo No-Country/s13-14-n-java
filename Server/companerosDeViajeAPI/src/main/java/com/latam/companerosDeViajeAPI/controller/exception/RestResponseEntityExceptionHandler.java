@@ -14,7 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeParseException;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler {
@@ -87,7 +86,6 @@ public class RestResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto("Notification", ex.getMessage()));
     }
-}
 
     @ExceptionHandler(IsNotOwnerException.class)
     public ResponseEntity<ErrorResponseDto> IsNotOwnerException(IsNotOwnerException ex, WebRequest request) {

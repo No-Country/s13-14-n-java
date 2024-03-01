@@ -12,7 +12,6 @@ import com.latam.companerosDeViajeAPI.utils.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +22,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class NotificationService {
     private final NotificationRepository notificationRepository;
-    private final SimpMessagingTemplate messagingTemplate;
     private final UserRepository userRepository;
     private final UserService userService;
+
 
 
     public void SendNotificationToAllUsersWithMatchingInterestInTravelGroupCreated(TravelGroup travelGroup){
@@ -35,14 +34,12 @@ public class NotificationService {
                 String msg = "Se ha creado un nuevo grupo de viaje a " +
                         travelGroup.getDestination() +" que se ajusta con tus preferencias";
                 Notification notification = notificationRepository.save(new Notification(msg,user));
-                messagingTemplate.convertAndSendToUser(notification.getUser()
-                        .getUsername(),"/topic/notification", notification.getMsg());
             }
         }
     }
 
-    public Integer getUnreadNotificationCountByUser() {
-        User user = userService.getUser();
+    public Integer getUnreadNotificationCountByUser(Long userId) {
+        User user = userRepository.getReferenceById(userId);
         List<Notification> UnreadUserNotifications = notificationRepository.findByUserAndStatusNotRead(user);
         return UnreadUserNotifications.size();
     }
