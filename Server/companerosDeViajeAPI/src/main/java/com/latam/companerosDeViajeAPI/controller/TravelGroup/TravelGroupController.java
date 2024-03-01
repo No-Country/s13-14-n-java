@@ -242,11 +242,45 @@ public class TravelGroupController {
                             description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
                             content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
                             ))
-                    )}
-
-    )
+                    )})
     @PutMapping(value = "update-travel-group")
     public ResponseEntity<TravelGroupInfoDto> updateTravelGroup(@RequestParam Long groupId, HttpServletRequest request, @RequestBody UpdateTravelGroupInfoDto updateTravelGroupInfoDto){
         return ResponseEntity.ok(travelGroupServiceImp.updateTravelGroup(groupId, request, updateTravelGroupInfoDto));
+    }
+
+    @Operation(
+            summary = "Endpoint que retorna todos los datos de un grupo de viaje(Travel Group) según su id",
+            description = "Endpoint que retorna todos los datos de un grupo de viaje(Travel Group) según su id. Este endpoint solo puede ser consultado por usuarios registrados y logueados, y requiere para su autenticación del ingreso del JWT que se obtiene al loguearse.",
+            method = "GET",
+            parameters = {
+                    @Parameter(name = "id", description = "Campo numérico donde debe enviarse el id del grupo que se desea obtener. Valida que el id no sea nulo y que exista un travel group con dicho id." , example = "1"),
+            },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Success. En caso de éxito, retorna un objeto con la información del grupo de viaje. ",
+                            content = @Content(schema = @Schema(implementation = TravelGroupInfoDto.class,
+                                    contentMediaType = MediaType.APPLICATION_JSON_VALUE
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad Request. En caso de error en el ingreso de datos, devuelve, en la mayoría de los casos, un Json que " +
+                                    "contiene el campo del error y una descripción del mismo. " +
+                                    "Valida que el id ingresado no esté vacío o sea nulo y que exista un grupo con el id ingresado por parámetro.",
+                            content = @Content(schema = @Schema(implementation = ErrorResponseDto.class,
+                                    contentMediaType = MediaType.APPLICATION_JSON_VALUE
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    )}
+    )
+    @GetMapping("/{id}")
+    public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@PathVariable Long id){
+        return ResponseEntity.ok(travelGroupServiceImp.findTravelGroupById(id));
     }
 }

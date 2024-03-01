@@ -189,6 +189,16 @@ public class TravelGroupServiceImp implements TravelGroupService{
         return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
     }
 
+    @Override
+    public TravelGroupInfoDto findTravelGroupById(Long id) {
+        if(!isNotNull(id)){
+            throw new BadDataEntryException("The id entered is invalid or null.", "id");
+        }
+        if(!travelGroupRepository.existsById(id))
+            throw new BadDataEntryException("There is no travel group with the id entered: " + id, "id");
+        return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.findById(id).get());
+    }
+
     private void updateTravelGroupInfo(TravelGroup travelGroup, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {
         if(updateTravelGroupInfoDto.getDepartureDate()!=null){
             travelGroup.setDepartureDate(updateTravelGroupInfoDto.getDepartureDate());
