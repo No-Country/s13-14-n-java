@@ -10,5 +10,6 @@ public class TravelerDTO {
     private String username;
     private String name;
     private String profilePicture;
+    private Long id;
 
 }
