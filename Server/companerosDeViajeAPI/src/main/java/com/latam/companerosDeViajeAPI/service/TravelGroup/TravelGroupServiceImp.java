@@ -88,28 +88,28 @@ public class TravelGroupServiceImp implements TravelGroupService{
     @Override
     public Page<TravelGroup> findTravelGroups(Pageable pageable, String destination
             , LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget) {
-        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget)){
+        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDateAndBudget(pageable, destination, departureDate, returnDate, budget);
         }
-        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate)){
+        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDate(pageable, destination, departureDate, returnDate);
         }
-        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(budget)){
+        if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(budget) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndDepartureDateAndBudget(pageable, destination, departureDate, budget);
         }
-        if(isNotNull(destination) && isNotNull(returnDate) && isNotNull(budget)){
+        if(isNotNull(destination) && isNotNull(returnDate) && isNotNull(budget) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndReturnDateAndBudget(pageable, destination, returnDate, budget);
         }
         if(isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget)){
             return travelGroupRepository.findByDepartureDateAndReturnDateAndBudget(pageable , departureDate, returnDate, budget);
         }
-        if(isNotNull(destination) && isNotNull(departureDate)){
+        if(isNotNull(destination) && isNotNull(departureDate) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndDepartureDate(pageable, destination, departureDate);
         }
-        if(isNotNull(destination) && isNotNull(returnDate)){
+        if(isNotNull(destination) && isNotNull(returnDate) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndReturnDate(pageable, destination, returnDate);
         }
-        if(isNotNull(destination) && isNotNull(budget)){
+        if(isNotNull(destination) && isNotNull(budget) && !destination.isBlank()){
             return travelGroupRepository.findByDestinationAndBudget(pageable, destination, budget);
         }
         if(isNotNull(departureDate) && isNotNull(returnDate)){
@@ -121,7 +121,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
         if(isNotNull(returnDate) && isNotNull(budget)){
             return travelGroupRepository.findByReturnDateAndBudget(pageable, returnDate, budget);
         }
-        if(isNotNull(destination)){
+        if(isNotNull(destination) && !destination.isBlank()){
             return travelGroupRepository.findByDestination(pageable, destination);
         }
         if(isNotNull(departureDate)){
