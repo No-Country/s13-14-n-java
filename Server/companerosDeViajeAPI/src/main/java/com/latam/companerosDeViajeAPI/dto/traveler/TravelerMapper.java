@@ -7,10 +7,21 @@ import lombok.experimental.UtilityClass;
 public class TravelerMapper {
     public TravelerDTO userToTravelerDto(User user){
         return TravelerDTO.builder()
+                .id(user.getId())
                 .username(user.getUsername())
                 .name(user.getName())
                 .profilePicture(user.getProfilePicture())
                 .build();
     }
 
+
+    public ReportedTravelerDTO userToReportedTravelerDto(User reportedTraveler) {
+        return ReportedTravelerDTO.builder()
+                .id(reportedTraveler.getId())
+                .name(reportedTraveler.getName())
+                .birthDate(reportedTraveler.getBirthDate())
+                .email(reportedTraveler.getEmail())
+                .phoneNumber(reportedTraveler.getPhoneNumber())
+                .build();
+    }
 }

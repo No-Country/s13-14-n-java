@@ -1,0 +1,4 @@
+CREATE TABLE `user_reports` (
+  `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `message` varchar(255) DEFAULT NULL
+);
