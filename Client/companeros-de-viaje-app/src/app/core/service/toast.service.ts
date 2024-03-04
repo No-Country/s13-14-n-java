@@ -20,6 +20,5 @@ export class ToastService {
     this.toast.summary = summary;
     this.toast.severity = severity;
     this.toast$.next(this.toast);
-    console.log('toast service');
   }
 }

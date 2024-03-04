@@ -60,7 +60,6 @@ export class RegisterPageComponent {
       return;
     }
 
-    console.log(this.registerForm.value);
     const { name, username, email, pwd } = this.registerForm.value;
     this.credential.name = name;
     this.credential.email = email;

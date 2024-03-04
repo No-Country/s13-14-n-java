@@ -1,15 +1,40 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../auth/service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
+  public hasToke: boolean = false;
 
-  constructor() { }
+  public displayLogout: boolean = false;
 
-  ngOnInit(): void {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {}
+
+  public get showLogoutBtn(): boolean {
+    return this.authService.hasToken;
   }
 
+  public onSearch() {
+    if (this.authService.hasToken) {
+      this.router.navigateByUrl('/book/home');
+    } else {
+      this.router.navigateByUrl('/auth/login');
+    }
+  }
+
+  showLogoutDialog() {
+    this.displayLogout = true;
+  }
+
+  onLogoutDialog() {
+    sessionStorage.clear();
+    this.displayLogout = false;
+    this.router.navigateByUrl('/cdv/home');
+  }
 }

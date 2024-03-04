@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormValidatorService } from '../service/form-validator.service';
 import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/core/service/toast.service';
 @Component({
   selector: 'app-profile-reg-page',
   templateUrl: './profile-reg-page.component.html',
@@ -15,7 +16,8 @@ export class ProfileRegPageComponent implements OnInit {
     private fb: FormBuilder,
     private formValidator: FormValidatorService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   public pRegForm: FormGroup = this.fb.group({
@@ -47,9 +49,7 @@ export class ProfileRegPageComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.registerService.credential$.subscribe((resp) => {
-      console.log(resp);
-    });
+    this.registerService.credential$.subscribe();
   }
 
   public get gCredential(): Credential {
@@ -73,15 +73,23 @@ export class ProfileRegPageComponent implements OnInit {
       role: 'ROLE_USER',
     };
 
-    console.log(JSON.stringify(body));
-
     this.authService.register(body).subscribe({
       next: () => {
         this.pRegForm.reset();
+        this.toastService.showToast(
+          'success',
+          'Service Message',
+          'Registro exitoso.'
+        );
         this.router.navigateByUrl('/book/home');
       },
       error: (err) => {
-        console.log(err);
+        this.toastService.showToast(
+          'error',
+          'Service Message',
+          'Los datos ingresados no son válidos.'
+        );
+        this.router.navigateByUrl('/auth/new-account');
       },
     });
   }

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterService } from '../service/register.service';
 import { Router } from '@angular/router';
 import { FormValidatorService } from '../service/form-validator.service';
-import { Observer } from 'rxjs';
+
 import { AuthService } from '../service/auth.service';
 import { ToastService } from '../../core/service/toast.service';
 
@@ -31,14 +31,6 @@ export class LoginPageComponent implements OnInit {
     sessionStorage.removeItem('token');
   }
 
-  observer: Observer<any> = {
-    next: (value) => {
-      console.log('[next]:', value);
-    },
-    error: (error) => console.warn('[error]:', error),
-    complete: () => console.warn('complete'),
-  };
-
   isValidField(field: string) {
     return this.formValidator.isValidField(this.loginForm, field);
   }
@@ -49,7 +41,7 @@ export class LoginPageComponent implements OnInit {
       this.markDirty();
       return;
     }
-    console.log(this.loginForm.value);
+
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
         this.loginForm.reset();
@@ -61,8 +53,6 @@ export class LoginPageComponent implements OnInit {
         this.router.navigateByUrl('/book/home');
       },
       error: (error) => {
-        console.log('eerr');
-
         this.loginForm.reset();
         this.toastService.showToast(
           'error',

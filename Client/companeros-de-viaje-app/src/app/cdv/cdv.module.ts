@@ -10,6 +10,7 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { ContactComponent } from './contact/contact.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsComponent } from './terms/terms.component';
+import { PipesModule } from '../core/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,12 @@ import { TermsComponent } from './terms/terms.component';
     PrivacyPolicyComponent,
     TermsComponent,
   ],
-  imports: [CommonModule, CdvRoutingModule, SharedModule, PrimeNgModule],
+  imports: [
+    CommonModule,
+    CdvRoutingModule,
+    SharedModule,
+    PrimeNgModule,
+    PipesModule,
+  ],
 })
 export class CdvModule {}

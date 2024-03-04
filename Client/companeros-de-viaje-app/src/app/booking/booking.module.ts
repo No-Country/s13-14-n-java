@@ -8,7 +8,10 @@ import { ListComponent } from './list/list.component';
 import { DetailComponent } from './detail/detail.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { PipesModule } from '../core/pipes/pipes.module';
+import { EditGroupComponent } from './edit-group/edit-group.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     ListComponent,
     DetailComponent,
     NewGroupComponent,
+    EditGroupComponent,
   ],
-  imports: [CommonModule, BookingRoutingModule, PrimeNgModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    BookingRoutingModule,
+    PrimeNgModule,
+    ReactiveFormsModule,
+    SharedModule,
+    PipesModule,
+    FormsModule,
+  ],
 })
 export class BookingModule {}

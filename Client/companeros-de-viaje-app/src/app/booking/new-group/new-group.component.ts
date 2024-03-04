@@ -66,7 +66,7 @@ export class NewGroupComponent implements OnInit {
       this.markDirty();
       return;
     }
-    console.log(this.newGrpForm.value);
+
     const { spot, iDate, fDate, budget, people, interest, plan } =
       this.newGrpForm.value;
 
@@ -79,8 +79,6 @@ export class NewGroupComponent implements OnInit {
     this.body.minimumNumberOfMembers = people;
     this.body.itinerary = plan;
     this.body.interests = interests;
-
-    console.log(this.body);
 
     this.bookService.createGroup(this.body).subscribe({
       next: () => {

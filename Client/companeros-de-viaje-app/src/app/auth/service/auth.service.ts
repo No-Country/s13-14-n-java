@@ -15,6 +15,13 @@ export class AuthService {
     return sessionStorage.getItem('token') ?? '';
   }
 
+  public get hasToken(): boolean {
+    if (sessionStorage.getItem('token')) {
+      return true;
+    }
+    return false;
+  }
+
   saveLocalStorage(token: string) {
     sessionStorage.clear();
     sessionStorage.setItem('token', token);

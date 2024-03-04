@@ -1,1 +1,265 @@
-<p>detail works!</p>
+<div
+  class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
+>
+  <div
+    class="w-12 p-2 flex flex-wrap align-items-center justify-content-center"
+  >
+    <div class="w-8 flex align-items-center justify-content-between">
+      <div class="w-5 m-3 text-900 text-3xl font-semibold">
+        {{ group?.destination }}
+      </div>
+      <div class="w-7 flex align-items-center justify-content-end">
+        <p-button
+          label="Explorar Grupos"
+          styleClass="p-button-sm p-button-outlined mx-2"
+          routerLink="/book/list"
+        ></p-button>
+        <p-button
+          label="Unirse"
+          styleClass="p-button-sm p-button-secondary mx-2"
+          (click)="showJoinDialog()"
+          [ngClass]="{ hidden: showJoinBtn }"
+        ></p-button>
+        <p-button
+          label="Editar"
+          styleClass="p-button-sm  p-button-help mx-2"
+          [ngClass]="{ hidden: !showEditBtn }"
+          [routerLink]="'/book/edit/' + editId"
+        ></p-button>
+        <p-button
+          label="Invitar"
+          styleClass="p-button-sm p-button-success mx-2"
+        ></p-button>
+        <p-button
+          label="Abandonar"
+          styleClass="p-button-sm  p-button-warning mx-2"
+          (click)="showLeaveDialog()"
+          [ngClass]="{ hidden: !showLeaveBtn }"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+    <div class="w-8 my-3 flex flex-wrap justify-content-between">
+      <div
+        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      >
+        <div
+          class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+        >
+          <div class="w-6 text-xl flex align-items-center font-medium">
+            Fecha inicio
+          </div>
+        </div>
+        <div
+          class="w-12 text-base p-3 text-600 flex align-items-center justify-content-end"
+        >
+          {{ group?.departureDate | extractDate }}
+        </div>
+      </div>
+      <div
+        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      >
+        <div
+          class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+        >
+          <div class="w-6 text-xl flex align-items-center font-medium">
+            Fecha finalización
+          </div>
+        </div>
+        <div
+          class="w-12 text-base p-3 text-600 flex align-items-center justify-content-end"
+        >
+          {{ group?.returnDate | extractDate }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+    <div class="w-8 my-3 flex flex-wrap justify-content-between">
+      <div
+        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      >
+        <div
+          class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+        >
+          <div class="w-6 text-xl flex align-items-center font-medium">
+            Presupuesto
+          </div>
+        </div>
+        <div
+          class="w-12 text-base p-3 text-600 flex align-items-center justify-content-end"
+        >
+          {{ group?.budget | currency : "ARS" : "symbol-narrow" }}
+        </div>
+      </div>
+      <div
+        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      >
+        <div
+          class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+        >
+          <div class="w-12 text-xl flex align-items-center font-medium">
+            Mínimo de integrantes / cantidad actual
+          </div>
+        </div>
+        <div
+          class="w-12 text-base p-3 text-600 flex align-items-center justify-content-end"
+        >
+          {{ group?.minimumNumberOfMembers }} / {{ group?.totalTravelers }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+    <div
+      class="w-8 my-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+    >
+      <div
+        class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+      >
+        <div class="w-6 text-xl flex align-items-center font-medium">
+          Itinerario
+        </div>
+      </div>
+      <div class="w-12 text-base p-3 text-600 flex align-items-center">
+        {{ group?.itinerary }}
+      </div>
+    </div>
+  </div>
+  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+    <div
+      class="w-8 my-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+    >
+      <div
+        class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+      >
+        <div class="w-6 text-xl flex align-items-center font-medium">
+          Intereses
+        </div>
+      </div>
+      <div
+        class="w-12 text-base p-3 text-600 flex align-items-center justify-content-center"
+      >
+        <p-chip
+          [label]="item | titlecase"
+          styleClass="mr-2"
+          *ngFor="let item of group?.interests"
+        ></p-chip>
+      </div>
+    </div>
+  </div>
+  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+    <div
+      class="w-8 my-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+    >
+      <div
+        class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+      >
+        <div class="w-6 text-xl flex align-items-center font-medium">
+          Viajeros inscritos
+        </div>
+      </div>
+      <div
+        class="w-12 text-base p-3 text-600 flex flex-wrap align-items-center justify-content-center"
+      >
+        <div
+          class="w-11 m-1 flex bg-cyan-50 border-round-xl"
+          *ngFor="let item of group?.travelers"
+        >
+          <div class="w-4 flex align-items-center justify-content-center">
+            <p-avatar
+              [label]="item.name | firstChar"
+              styleClass="mr-2"
+              size="large"
+              [style]="{ 'background-color': '#00a0b1', color: '#ffffff' }"
+              shape="circle"
+            ></p-avatar>
+          </div>
+          <div
+            class="w-4 font-bold flex align-items-center justify-content-center"
+          >
+            {{ item.name }}
+          </div>
+          <div class="w-4 flex align-items-center justify-content-center">
+            <p-button
+              label="Reportar"
+              styleClass="p-button-sm  p-button-warning"
+            ></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="displayJoin"
+  [breakpoints]="{ '960px': '50vw' }"
+  [style]="{ width: '25vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div class="w-10 flex align-items-center justify-content-center">
+      <i class="pi pi-user-plus text-cyan-300" style="font-size: 10rem"></i>
+    </div>
+    <div
+      class="w-10 flex flex-column align-items-center justify-content-center"
+    >
+      <p class="text-lg font-semibold my-1">¿Unirse al Grupo?</p>
+      <p class="text-500 my-1">
+        Si se une al grupo, podrá enterarse de todas las novedades
+      </p>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="displayJoin = false"
+      label="Cancelar"
+      styleClass="p-button-sm p-button-outlined"
+    ></p-button>
+    <p-button
+      (click)="onJoinGroup(group?.id)"
+      label="Unirse"
+      styleClass="p-button-sm p-button-secondary"
+    ></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="displayLeave"
+  [breakpoints]="{ '960px': '50vw' }"
+  [style]="{ width: '25vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div class="w-10 flex align-items-center justify-content-center">
+      <i class="pi pi-user-minus text-cyan-300" style="font-size: 10rem"></i>
+    </div>
+    <div
+      class="w-10 flex flex-column align-items-center justify-content-center"
+    >
+      <p class="text-lg font-semibold my-1">¿Abandonar al Grupo?</p>
+      <p class="text-500 my-1">
+        Si abandona el grupo, ya no recibirá notificaciones del mismo ni sera
+        incluido cuando se concrete el viaje.
+      </p>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="displayLeave = false"
+      label="Cancelar"
+      styleClass="p-button-sm p-button-outlined"
+    ></p-button>
+    <p-button
+      (click)="onLeaveGroup(group?.id)"
+      label="Abandonar"
+      styleClass="p-button-sm p-button-secondary"
+    ></p-button>
+  </ng-template>
+</p-dialog>

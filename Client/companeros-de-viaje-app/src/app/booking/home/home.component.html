@@ -1,1 +1,62 @@
-<p>home works!</p>
+<app-home-card> </app-home-card>
+<div
+  class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
+>
+  <div
+    class="w-12 p-2 flex flex-wrap align-items-center justify-content-center"
+  >
+    <div class="w-8 flex align-items-center justify-content-between">
+      <div class="w-6 m-3 text-900 text-3xl font-semibold">Mis Grupos</div>
+      <p-button
+        label="Explorar Grupos"
+        styleClass="p-button-sm p-button-outlined"
+        routerLink="/book/list"
+      ></p-button>
+      <p-button
+        label="Crear Grupo"
+        styleClass="p-button-sm p-button-secondary"
+        routerLink="/book/new-group"
+      ></p-button>
+    </div>
+  </div>
+  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+    <div
+      class="w-4 m-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 hover:shadow-5"
+      *ngFor="let item of groups"
+      [routerLink]="'/book/detail/' + item.id"
+    >
+      <div
+        class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+      >
+        <div class="w-6 text-xl flex align-items-center font-medium">
+          {{ item.destination }}
+        </div>
+        <div
+          class="w-6 text-base flex align-items-center text-600 justify-content-end"
+        >
+          {{ item.departureDate | extractDate }} al
+          {{ item.returnDate | extractDate }}
+        </div>
+      </div>
+      <div class="w-12 text-base p-3 text-600">
+        {{ item.itinerary }}
+      </div>
+      <div class="w-12 flex border-round py-2 px-3">
+        <div class="w-6 text-base flex align-items-center text-600">
+          <span class="font-semibold">Mínimo de integrantes:</span>
+          <span>{{ item.minimumNumberOfMembers }}</span>
+        </div>
+        <div
+          class="w-6 text-base flex align-items-center text-600 justify-content-end"
+        >
+          <span class="font-semibold">Integrantes actuales:</span>
+          {{ item.totalTravelers }}
+        </div>
+      </div>
+      <div class="w-12 text-base flex border-round pt-2 px-3 pb-3 text-600">
+        <span class="font-semibold">Presupuesto:</span>
+        {{ item.budget | currency : "ARS" : "symbol-narrow" }}
+      </div>
+    </div>
+  </div>
+</div>

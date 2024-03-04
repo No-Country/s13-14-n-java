@@ -4,3 +4,23 @@
   align-items: center;
   height: 100vh;
 }
+
+:host ::ng-deep {
+  $chip-font-size: 0.875rem;
+
+  $primary-color: #00a0b1;
+  $primary-hover-color: #007d8a;
+  $text-color: #ffffff;
+  $border-color: $primary-color;
+
+  .p-button {
+    color: $text-color;
+    background: $primary-color;
+    border: 1px solid $border-color;
+
+    &:enabled:hover {
+      background: $primary-hover-color;
+      border-color: $primary-hover-color;
+    }
+  }
+}

@@ -24,7 +24,6 @@ export class RegisterService {
   saveCredential(form: Credential) {
     this.credential = form;
     this.credential$.next(form);
-    console.log(this.credential);
   }
 
   public get gCredential(): Credential {

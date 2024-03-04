@@ -1,82 +1,85 @@
 <div
-  class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
+  class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center"
 >
-  <div class="w-12 pb-2">
-    <div class="text-center text-900 text-3xl font-medium">Ingresar</div>
+  <div class="w-12 py-2">
+    <div class="text-center text-900 text-3xl font-semibold">Ingresar</div>
   </div>
-  <div class="w-6">
-    <div
-      class="min-w-full border-round p-3 flex align-items-center justify-content-end"
-    >
-      <img src="./assets/photo/r-1.jpeg" alt="Logo" class="h-25rem" />
+  <div class="w-8 flex flex-wrap align-items-center justify-content-center">
+    <div class="w-6 py-4">
+      <div
+        class="h-30rem w-full flex align-items-center justify-content-end border-round-2xl overflow-hidden"
+      >
+        <img
+          src="https://cdn.pixabay.com/photo/2021/08/18/14/13/paragliding-6555664_1280.jpg"
+          alt="Logo"
+          class="bg-auto bg-no-repeat"
+        />
+      </div>
     </div>
-  </div>
-  <div class="w-6 pr-8 pl-6">
-    <div class="p-4 w-full">
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" autocomplete="off">
-        <div class="text-800 font-medium mb-3">
-          <label for="email1" class="block text-900 font-medium mb-2"
-            >Username</label
+    <div class="w-6 p-5">
+      <div class="w-full">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()" autocomplete="off">
+          <div class="text-800 font-medium py-2">
+            <label for="email1" class="block text-900 font-medium py-2"
+              >Username</label
+            >
+            <input
+              id="email1"
+              type="text"
+              pInputText
+              class="w-full mb-1"
+              formControlName="username"
+            />
+            <small
+              id="username"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('username') }"
+              >Por favor, ingresa su username.</small
+            >
+          </div>
+          <div class="text-800 font-medium py-2">
+            <label for="password1" class="block text-900 font-medium py-2"
+              >Contraseña</label
+            >
+            <p-password
+              id="password1"
+              [toggleMask]="true"
+              styleClass="w-full mb-1"
+              [feedback]="true"
+              formControlName="password"
+            ></p-password>
+            <small
+              id="password1"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('password') }"
+              >Por favor, ingresa su contraseña.</small
+            >
+          </div>
+          <div class="flex align-items-center justify-content-end my-3">
+            <a
+              class="font-medium no-underline ml-2 text-right cursor-pointer text-cyan-500"
+              routerLink="/auth/reset-pass"
+              >Olvide mi contraseña</a
+            >
+          </div>
+          <button
+            pButton
+            pRipple
+            label="Ingresar"
+            type="submit"
+            class="w-full"
+          ></button>
+        </form>
+        <div class="text-center my-3">
+          <span class="text-600 font-medium line-height-3"
+            >¿Aún no tenes una cuenta?</span
           >
-          <input
-            id="email1"
-            type="text"
-            pInputText
-            class="w-full mb-1"
-            formControlName="username"
-          />
-          <small
-            id="username"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('username') }"
-            >Por favor, ingresa su username.</small
-          >
-        </div>
-
-        <div class="text-800 font-medium mb-3">
-          <label for="password1" class="block text-900 font-medium mb-2"
-            >Contraseña</label
-          >
-          <p-password
-            id="password1"
-            [toggleMask]="true"
-            styleClass="w-full mb-1"
-            [feedback]="true"
-            formControlName="password"
-          ></p-password>
-          <small
-            id="password1"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('password') }"
-            >Por favor, ingresa su contraseña.</small
-          >
-        </div>
-
-        <div class="flex align-items-center justify-content-end mb-3">
           <a
-            class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
-            routerLink="/auth/reset-pass"
-            >Olvide mi contraseña</a
+            class="font-medium no-underline ml-2 cursor-pointer text-cyan-500"
+            routerLink="/auth/new-account"
+            >Registrarse</a
           >
         </div>
-
-        <button
-          pButton
-          pRipple
-          label="Ingresar"
-          type="submit"
-          class="w-full"
-        ></button>
-      </form>
-      <div class="text-center mt-4 mb-2">
-        <span class="text-600 font-medium line-height-3"
-          >¿Aún no tenes una cuenta?</span
-        >
-        <a
-          class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-          routerLink="/auth/new-account"
-          >Registrarse</a
-        >
       </div>
     </div>
   </div>

@@ -1,3 +1,21 @@
-:host ::ng-deep .p-password input {
-  width: 100%;
+:host ::ng-deep {
+  $primary-color: #00a0b1;
+  $primary-hover-color: #007d8a;
+  $text-color: #ffffff;
+  $border-color: $primary-color;
+
+  .p-button {
+    color: $text-color;
+    background: $primary-color;
+    border: 1px solid $border-color;
+
+    &:enabled:hover {
+      background: $primary-hover-color;
+      border-color: $primary-hover-color;
+    }
+  }
+
+  .p-password input {
+    width: 100%;
+  }
 }

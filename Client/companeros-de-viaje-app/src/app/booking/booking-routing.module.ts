@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { DetailComponent } from './detail/detail.component';
 import { ListComponent } from './list/list.component';
 import { NewGroupComponent } from './new-group/new-group.component';
+import { EditGroupComponent } from './edit-group/edit-group.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'new-group',
         component: NewGroupComponent,
+      },
+      {
+        path: 'edit/:id',
+        component: EditGroupComponent,
       },
       {
         path: '**',

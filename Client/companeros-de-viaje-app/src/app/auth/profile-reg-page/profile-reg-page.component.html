@@ -1,143 +1,150 @@
 <div
   class="pt-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
 >
-  <div class="w-12 pb-2">
-    <div class="text-center text-900 text-3xl font-medium">
+  <div class="w-12 py-2">
+    <div class="text-center text-900 text-3xl font-semibold">
       Completa algunos datos tuyos
     </div>
   </div>
-  <div class="w-6">
-    <div
-      class="min-w-full border-round p-3 flex align-items-center justify-content-end"
-    >
-      <img src="./assets/photo/r-1.jpeg" alt="Logo" class="h-25rem" />
+  <div class="w-8 flex flex-wrap align-items-center justify-content-center">
+    <div class="w-6 py-4">
+      <div
+        class="h-30rem w-full flex align-items-center justify-content-end border-round-2xl overflow-hidden"
+      >
+        <img
+          src="	https://cdn.pixabay.com/photo/2015/11/24/15/05/argentina-1060154_640.jpg"
+          alt="Logo"
+          class="bg-auto bg-no-repeat"
+        />
+      </div>
     </div>
-  </div>
-  <div class="w-6 pr-8 pl-6">
-    <div class="p-4 w-full">
-      <form autocomplete="off" [formGroup]="pRegForm" (submit)="onSubmit()">
-        <div class="text-800 font-medium mb-3">
-          <label for="address" class="block text-900 font-medium mb-2"
-            >Dirección</label
-          >
-          <input
-            id="address"
-            type="text"
-            aria-describedby="address"
-            class="w-12"
-            pInputText
-            formControlName="address"
-          />
-          <small
-            id="address"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('address') }"
-            >Por favor, ingresa su dirección.</small
-          >
-        </div>
-        <div class="text-800 font-medium mb-3">
-          <label for="birthdate" class="block text-900 font-medium mb-2"
-            >Fecha Nacimiento</label
-          >
-          <p-calendar
-            id="birthdate"
-            aria-describedby="birthdate"
-            dateFormat="yy-mm-dd"
-            inputId="dateformat"
-            formControlName="birthDate"
-            dataType="string"
-            styleClass="w-full"
-          ></p-calendar>
-          <small
-            id="birthdate"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('birthDate') }"
-            >Por favor, ingresa su fecha de nacimiento.</small
-          >
-        </div>
-        <div class="text-800 font-medium mb-3">
-          <label for="phone" class="block text-900 font-medium mb-2"
-            >Numero de teléfono</label
-          >
-          <p-inputMask
-            id="phone"
-            mask="99-9999-9999"
-            placeholder="99-9999-9999"
-            formControlName="phoneNumber"
-            styleClass="w-full"
-          ></p-inputMask>
-          <small
-            id="phone"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('phoneNumber') }"
-            >Por favor, ingresa su numero de teléfono.</small
-          >
-        </div>
-        <div class="text-800 font-medium mb-3">
-          <label for="gender" class="block text-900 font-medium mb-2"
-            >Sexo</label
-          >
-          <p-dropdown
-            [options]="genders"
-            placeholder="Select"
-            optionLabel="name"
-            optionValue="name"
-            formControlName="gender"
-            styleClass="w-full"
-          ></p-dropdown>
-          <small
-            id="gender"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('gender') }"
-            >Este campo es obligatorio.</small
-          >
-        </div>
-        <div class="text-800 font-medium mb-3">
-          <label for="country" class="block text-900 font-medium mb-2"
-            >País</label
-          >
-          <p-dropdown
-            [options]="country"
-            placeholder="Select"
-            optionLabel="name"
-            formControlName="country"
-            styleClass="w-full"
-          ></p-dropdown>
-          <small
-            id="country"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('country') }"
-            >Este campo es obligatorio.</small
-          >
-        </div>
-        <div class="text-800 font-medium mb-3">
-          <label for="interest" class="block text-900 font-medium mb-2"
-            >Intereses</label
-          >
-          <p-multiSelect
-            [options]="personal"
-            defaultLabel="Select"
-            optionLabel="name"
-            selectedItemsLabel="{0} items selected"
-            formControlName="interest"
-            styleClass="w-full"
-          ></p-multiSelect>
-          <small
-            id="interest"
-            class="hidden"
-            [ngClass]="{ 'p-error block': isValidField('interest') }"
-            >Este campo es obligatorio.</small
-          >
-        </div>
-
-        <button
-          pButton
-          pRipple
-          label="Finalizar"
-          type="submit"
-          class="w-full"
-        ></button>
-      </form>
+    <div class="w-6 p-5">
+      <div class="p-4 w-full">
+        <form autocomplete="off" [formGroup]="pRegForm" (submit)="onSubmit()">
+          <div class="text-800 font-medium py-2">
+            <label for="address" class="block text-900 font-medium py-2"
+              >Dirección</label
+            >
+            <input
+              id="address"
+              type="text"
+              aria-describedby="address"
+              class="w-12"
+              pInputText
+              formControlName="address"
+            />
+            <small
+              id="address"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('address') }"
+              >Por favor, ingresa su dirección.</small
+            >
+          </div>
+          <div class="text-800 font-medium py-2">
+            <label for="birthdate" class="block text-900 font-medium py-2"
+              >Fecha Nacimiento</label
+            >
+            <p-calendar
+              id="birthdate"
+              aria-describedby="birthdate"
+              dateFormat="yy-mm-dd"
+              inputId="dateformat"
+              formControlName="birthDate"
+              dataType="string"
+              styleClass="w-full"
+            ></p-calendar>
+            <small
+              id="birthdate"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('birthDate') }"
+              >Por favor, ingresa su fecha de nacimiento.</small
+            >
+          </div>
+          <div class="text-800 font-medium py-2">
+            <label for="phone" class="block text-900 font-medium py-2"
+              >Numero de teléfono</label
+            >
+            <p-inputMask
+              id="phone"
+              mask="99-9999-9999"
+              placeholder="99-9999-9999"
+              formControlName="phoneNumber"
+              styleClass="w-full"
+            ></p-inputMask>
+            <small
+              id="phone"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('phoneNumber') }"
+              >Por favor, ingresa su numero de teléfono.</small
+            >
+          </div>
+          <div class="text-800 font-medium py-2">
+            <label for="gender" class="block text-900 font-medium py-2"
+              >Sexo</label
+            >
+            <p-dropdown
+              [options]="genders"
+              placeholder="Select"
+              optionLabel="name"
+              optionValue="name"
+              formControlName="gender"
+              styleClass="w-full"
+            ></p-dropdown>
+            <small
+              id="gender"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('gender') }"
+              >Este campo es obligatorio.</small
+            >
+          </div>
+          <div class="text-800 font-medium py-2">
+            <label for="country" class="block text-900 font-medium py-2"
+              >País</label
+            >
+            <p-dropdown
+              [options]="country"
+              placeholder="Select"
+              optionLabel="name"
+              formControlName="country"
+              styleClass="w-full"
+            ></p-dropdown>
+            <small
+              id="country"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('country') }"
+              >Este campo es obligatorio.</small
+            >
+          </div>
+          <div class="text-800 font-medium py-2">
+            <label for="interest" class="block text-900 font-medium py-2"
+              >Intereses</label
+            >
+            <p-multiSelect
+              [options]="personal"
+              defaultLabel="Select"
+              optionLabel="name"
+              selectedItemsLabel="{0} items selected"
+              formControlName="interest"
+              styleClass="w-full"
+            ></p-multiSelect>
+            <small
+              id="interest"
+              class="hidden"
+              [ngClass]="{ 'p-error block': isValidField('interest') }"
+              >Este campo es obligatorio.</small
+            >
+          </div>
+          <div class="text-center my-3">
+            <button
+              pButton
+              pRipple
+              label="Finalizar"
+              type="submit"
+              class="w-full"
+            ></button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

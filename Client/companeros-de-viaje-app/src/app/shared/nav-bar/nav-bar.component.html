@@ -1,22 +1,84 @@
 <!-- Navbar -->
 <nav
-  class="navbar navbar-expand-lg bg-body-tertiary rounded "
+  class="navbar navbar-expand-lg bg-body-tertiary rounded"
   aria-label="Thirteenth navbar example"
 >
-  <div class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex md:align-items-center md:justify-content-between relative">
-    <div class="w-3 font-bold md:flex md:align-items-center md:justify-content-center">
+  <div
+    class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex md:align-items-center md:justify-content-between relative"
+  >
+    <div
+      class="w-3 font-bold md:flex md:align-items-center md:justify-content-center"
+    >
       <img src="./assets/svg/log.svg" alt="Logo" class="w-12" />
     </div>
-    <div class="w-6 font-bold md:flex md:align-items-center md:justify-content-center" id="navbarsExample11">
-          <button class="button-nabvar" routerLink="./home-page">Inicio</button>
-          <button class="button-nabvar" routerLink="">Buscar</button>
-          <button class="button-nabvar" routerLink="./about-us" >Sobre Nosotros</button>
-          <button class="button-nabvar" routerLink="./contact">Contacto</button>
+    <div
+      class="w-6 font-bold md:flex md:align-items-center md:justify-content-center"
+      id="navbarsExample11"
+    >
+      <button class="button-nabvar" routerLink="/cdv/home">Inicio</button>
+      <button class="button-nabvar" (click)="onSearch()">Buscar</button>
+      <button class="button-nabvar" routerLink="/cdv/about-us">
+        Sobre Nosotros
+      </button>
+      <button class="button-nabvar" routerLink="/cdv/contact">Contacto</button>
     </div>
-    <div class="w-3 font-bold md:flex md:align-items-center md:justify-content-around">
-      <button class="button-su-li" routerLink="/auth/login">Inicar sesion</button>
-      <button class="button-su-li" routerLink="/auth/new-account">Registrarse</button>
+    <div
+      class="w-3 font-bold md:flex md:align-items-center md:justify-content-around"
+    >
+      <button
+        class="button-su-li"
+        routerLink="/auth/login"
+        [ngClass]="{ hidden: showLogoutBtn }"
+      >
+        Inicar sesion
+      </button>
+      <button
+        class="button-su-li"
+        routerLink="/auth/new-account"
+        [ngClass]="{ hidden: showLogoutBtn }"
+      >
+        Registrarse
+      </button>
+      <p-button
+        label="Logout"
+        styleClass="p-button-sm p-button-outlined"
+        [ngClass]="{ hidden: !showLogoutBtn }"
+        (onClick)="showLogoutDialog()"
+      ></p-button>
     </div>
   </div>
 </nav>
 <!-- Fin Navbar -->
+
+<p-dialog
+  [(visible)]="displayLogout"
+  [breakpoints]="{ '960px': '50vw' }"
+  [style]="{ width: '25vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div class="w-10 flex align-items-center justify-content-center mb-3">
+      <i class="pi pi-sign-out text-cyan-300" style="font-size: 10rem"></i>
+    </div>
+    <div
+      class="w-10 flex flex-column align-items-center justify-content-center"
+    >
+      <p class="text-lg font-semibold my-1">¿Cerrar Sesión?</p>
+      <p class="text-500 my-1">Desea terminar su sesión</p>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="displayLogout = false"
+      label="Cancelar"
+      styleClass="p-button-sm p-button-outlined"
+    ></p-button>
+    <p-button
+      (click)="onLogoutDialog()"
+      label="Cerrar Sesión"
+      styleClass="p-button-sm p-button-secondary"
+    ></p-button>
+  </ng-template>
+</p-dialog>
