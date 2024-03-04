@@ -1,5 +1,6 @@
 package com.latam.companerosDeViajeAPI.controller.exception;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.latam.companerosDeViajeAPI.dto.exceptions.ErrorResponseDto;
 import com.latam.companerosDeViajeAPI.exceptions.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.format.DateTimeParseException;
 
@@ -109,18 +111,15 @@ public class RestResponseEntityExceptionHandler {
         int indexEnd = msg.indexOf(end, indexStart);
         return msg.substring(indexStart, indexEnd);
     }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponseDto> HttpMessageNotReadableException(HttpMessageNotReadableException ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto(ex.getCause().toString() , ex.getMessage()));
-    }
-
     @ExceptionHandler(NoTravelGroupsCreatedException.class)
     public ResponseEntity<ErrorResponseDto> NoTravelGroupsCreatedException(NoTravelGroupsCreatedException ex){
         return  ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(new ErrorResponseDto("No travelGroups", ex.getMessage()));
     }
-
+    @ExceptionHandler(JsonParseException.class)
+    public ResponseEntity<ErrorResponseDto> JsonParseException(JsonParseException ex, WebRequest request) throws IOException {
+        String errorMsg = "Error in entering query data. The field "+ ex.getProcessor().currentName() +" is empty.";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(ex.getProcessor().currentName() , errorMsg));
+    }
 }
-
