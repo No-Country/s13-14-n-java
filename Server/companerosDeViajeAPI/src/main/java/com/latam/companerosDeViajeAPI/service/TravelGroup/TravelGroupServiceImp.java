@@ -199,6 +199,21 @@ public class TravelGroupServiceImp implements TravelGroupService{
         return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.findById(id).get());
     }
 
+    @Override
+    public Page<TravelGroup> findTravelGroups(Pageable pageable) {
+        return travelGroupRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<TravelGroup> findTravelGroupsByOwner(Pageable pageable, HttpServletRequest request) {
+        User owner = findUserByToken(request);
+        Page<TravelGroup> travelGroups = travelGroupRepository.findByOwner(pageable, owner);
+        if(travelGroups.hasContent()){
+            return travelGroups;
+        }
+        throw new NoTravelGroupsCreatedException("You haven't created a travel group yet.");
+    }
+
     private void updateTravelGroupInfo(TravelGroup travelGroup, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {
         if(updateTravelGroupInfoDto.getDepartureDate()!=null){
             travelGroup.setDepartureDate(updateTravelGroupInfoDto.getDepartureDate());

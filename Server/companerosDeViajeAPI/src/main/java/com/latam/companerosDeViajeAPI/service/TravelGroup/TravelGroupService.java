@@ -26,4 +26,7 @@ public interface TravelGroupService {
     TravelGroupInfoDto updateTravelGroup(Long groupId, HttpServletRequest request, UpdateTravelGroupInfoDto updateTravelGroupInfoDto);
 
     TravelGroupInfoDto findTravelGroupById(Long id);
+
+    Page<TravelGroup> findTravelGroups(Pageable pageable);
+    Page<TravelGroup> findTravelGroupsByOwner(Pageable pageable, HttpServletRequest request);
 }
