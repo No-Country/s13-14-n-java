@@ -119,6 +119,60 @@ public class TravelGroupController {
     }
     @Operation(
 
+            summary="Endpoint para buscar en todos los grupos de viaje creados sin estar logueado.",
+            description = "Endpoint para buscar en todos los grupos de viaje creados sin necesida de estar logueado.",
+            method = "GET",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Success. En caso de éxito, el resultado de la consulta se retorna páginado, es decir que la lista total se divide en páginas, comenzando en la página 0. Cada página retorna una lista del objeto paginado, de acuerdo a los parámetros que se hayan seleccionado. \n" +
+                                    "Retorna un objeto, que dentro del atributo content, retorna una lista de objetos Travel Group con sus datos. También retorna atributos extra sobre la petición. "
+
+                    )}
+
+    )
+    @GetMapping(value = "find-travel-group-no-login")
+    public ResponseEntity<Page<TravelGroupInfoDto>> findTravelGroups(Pageable pageable){
+        return ResponseEntity.ok(travelGroupServiceImp.findTravelGroups(pageable).
+                map(TravelGroupMapper:: travelGroupToTravelGroupInfoDTO));
+    }
+    @Operation(
+
+            summary="Endpoint para buscar  todos los grupos de viaje creados por el usuario logueado.",
+            description = "Endpoint para buscar en todos los grupos de viaje creados por el usuario logueado. Este endpoint solo puede ser consultado por usuarios registrados y logueados, y requiere para su autenticación del ingreso del JWT que se obtiene al loguearse.",
+            method = "GET",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Success. En caso de éxito, el resultado de la consulta se retorna páginado, es decir que la lista total se divide en páginas, comenzando en la página 0. Cada página retorna una lista del objeto paginado, de acuerdo a los parámetros que se hayan seleccionado. \n" +
+                                    "Retorna un objeto, que dentro del atributo content, retorna una lista de objetos Travel Group con sus datos. También retorna atributos extra sobre la petición. " +
+                                    "Si no se encuentra ningún grupo con los parámetros ingresados, la lista retorna vaćía. Si no se colocan parámetros opcionales, el endpoint retorna todos los grupos de viaje de la base de datos. Los parámetros opcionales que no se van a utilizar no deben ingresarse en la consulta. " +
+                                    "En caso de ingresarse, ya sea vacíos o nulos, la búsqueda se realizará con esos valores según corresponda" +
+                                    "El atributo totalPages devuelve la cantidad de páginas en total que se encontraron. El atributo totalElements devuelve la cantidad total de travel grups(grupos de viaje" +
+                                    ") encontrados con los parámetros ingresados"
+
+                    ),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content. En caso de no tener grupos de viaje creados devuelve este codigo sin ningun body.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    )}
+
+    )
+    @GetMapping(value = "findByOwner")
+    public ResponseEntity<Page<TravelGroupInfoDto>> findTravelGroupsByOwner(Pageable pageable, HttpServletRequest request){
+        return ResponseEntity.ok(travelGroupServiceImp.findTravelGroupsByOwner(pageable, request).
+                map(TravelGroupMapper:: travelGroupToTravelGroupInfoDTO));
+    }
+    @Operation(
+
             summary="Endpoint para agregar un usuario a un grupo de viaje creado.",
             description = "Endpoint para agregar un usuario a un grupo de viaje creado según la US-VIA-03. Este endpoint solo puede ser consultado por usuarios registrados y logueados, y requiere para su autenticación del ingreso del JWT que se obtiene al loguearse.",
             externalDocs = @ExternalDocumentation(url = "https://trello.com/c/UWVemdBR", description = "Para mayor detalle pueden visitar el Trello, en la tarjeta de la US-VIA-03 BACK"),

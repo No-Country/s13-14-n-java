@@ -30,7 +30,7 @@ public class SecurityConfig {
                                 .disable())
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers("api/auth/**" ,"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/ws").permitAll()
+                                .requestMatchers("api/auth/**" ,"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/ws","/travel-group/find-travel-group-no-login").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager -> sessionManager

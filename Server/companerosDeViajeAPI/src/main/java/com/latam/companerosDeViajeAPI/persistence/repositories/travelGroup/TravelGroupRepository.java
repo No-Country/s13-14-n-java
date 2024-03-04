@@ -1,6 +1,7 @@
 package com.latam.companerosDeViajeAPI.persistence.repositories.travelGroup;
 
 import com.latam.companerosDeViajeAPI.persistence.entities.TravelGroup.TravelGroup;
+import com.latam.companerosDeViajeAPI.persistence.entities.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +42,6 @@ public interface TravelGroupRepository extends JpaRepository<TravelGroup, Long> 
     Page<TravelGroup> findByReturnDate(Pageable pageable, LocalDateTime returnDate);
 
     Page<TravelGroup> findByBudget(Pageable pageable, BigDecimal budget);
+
+    Page<TravelGroup> findByOwner(Pageable pageable, User Owner);
 }
