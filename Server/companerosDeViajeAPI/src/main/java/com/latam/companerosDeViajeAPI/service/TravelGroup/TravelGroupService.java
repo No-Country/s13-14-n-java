@@ -29,4 +29,7 @@ public interface TravelGroupService {
 
     Page<TravelGroup> findTravelGroups(Pageable pageable);
     Page<TravelGroup> findTravelGroupsByOwner(Pageable pageable, HttpServletRequest request);
+    Page<TravelGroup> findCompletesTravelGroups(Pageable pageable);
+    String markTravelGroupAsNegotiated(Long travelGroupId);
+
 }

@@ -121,6 +121,11 @@ public class RestResponseEntityExceptionHandler {
         return  ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(new ErrorResponseDto("No travelGroups", ex.getMessage()));
     }
+    @ExceptionHandler(NoCompleteTravelGroupsException.class)
+    public ResponseEntity<ErrorResponseDto> NoCompleteTravelGroupsException(NoCompleteTravelGroupsException ex){
+        return  ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(new ErrorResponseDto("No travelGroups", ex.getMessage()));
+    }
 
 }
 

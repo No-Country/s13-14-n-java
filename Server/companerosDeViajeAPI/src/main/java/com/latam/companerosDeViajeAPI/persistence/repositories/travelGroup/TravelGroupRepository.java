@@ -44,4 +44,7 @@ public interface TravelGroupRepository extends JpaRepository<TravelGroup, Long> 
     Page<TravelGroup> findByBudget(Pageable pageable, BigDecimal budget);
 
     Page<TravelGroup> findByOwner(Pageable pageable, User Owner);
+
+    Page<TravelGroup> findByCompleteAndNegotiationIsOver(boolean complete, boolean negotiationIsOver, Pageable pageable);
+
 }

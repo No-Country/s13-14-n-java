@@ -33,7 +33,7 @@ public class NotificationService {
             if(!(travelGroup.getOwner().getUsername().equals(user.getUsername()))){
                 String msg = "Se ha creado un nuevo grupo de viaje a " +
                         travelGroup.getDestination() +" que se ajusta con tus preferencias";
-                Notification notification = notificationRepository.save(new Notification(msg,user));
+                saveNotification(msg,user);
             }
         }
     }
@@ -64,5 +64,9 @@ public class NotificationService {
     public Page<NotificationDto> getNotificationsByUserAndStatus(Status status, Pageable pageable) {
         User user = userService.getUser();
         return notificationRepository.findByUserAndStatus(user,status,pageable).map(NotificationDto :: new);
+    }
+
+    public void saveNotification (String msg, User user){
+        notificationRepository.save(new Notification(msg,user));
     }
 }
