@@ -1,20 +1,19 @@
 package com.latam.companerosDeViajeAPI.service.jwt;
 
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 public class JwtService {
@@ -28,6 +27,7 @@ public class JwtService {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(login.getUsername())
+                .claim("role", login.getAuthorities())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+100000*60*24))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
