@@ -1,14 +1,6 @@
 package com.latam.companerosDeViajeAPI.service.TravelGroup;
 
 
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupCreatedDto;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupDTO;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupInfoDto;
-import com.latam.companerosDeViajeAPI.dto.travelGroup.TravelGroupMapper;
-import com.latam.companerosDeViajeAPI.exceptions.BadDataEntryException;
-import com.latam.companerosDeViajeAPI.exceptions.IsNotGreaterThanZeroException;
-import com.latam.companerosDeViajeAPI.exceptions.UserNotValidException;
-import com.latam.companerosDeViajeAPI.exceptions.UserOutsideTheGroupException;
 import com.latam.companerosDeViajeAPI.dto.travelGroup.*;
 import com.latam.companerosDeViajeAPI.exceptions.*;
 import com.latam.companerosDeViajeAPI.persistence.entities.Interest.Interest;
@@ -41,6 +33,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
     private UserRepository userRepository;
     private InterestService interestService;
     private NotificationService notificationService;
+
 
 
     public TravelGroupServiceImp(TravelGroupRepository travelGroupRepository, JwtService jwtService, UserRepository userRepository, InterestService interestServiceImp, NotificationService notificationService) {
@@ -147,6 +140,9 @@ public class TravelGroupServiceImp implements TravelGroupService{
         TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
         validateAddedUserData(userToAdd, travelGroup);
         travelGroup.getTravelers().add(userToAdd);
+        if(travelGroup.getMinimumNumberOfMembers() == travelGroup.getTravelers().size()){
+            travelGroup.setComplete(true);
+        }
         return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
     }
 
@@ -208,10 +204,34 @@ public class TravelGroupServiceImp implements TravelGroupService{
     public Page<TravelGroup> findTravelGroupsByOwner(Pageable pageable, HttpServletRequest request) {
         User owner = findUserByToken(request);
         Page<TravelGroup> travelGroups = travelGroupRepository.findByOwner(pageable, owner);
-        if(travelGroups.hasContent()){
-            return travelGroups;
+        if(!travelGroups.hasContent()){
+            throw new NoTravelGroupsCreatedException("You haven't created a travel group yet.");
         }
-        throw new NoTravelGroupsCreatedException("You haven't created a travel group yet.");
+        return travelGroups;
+    }
+
+    @Override
+    public Page<TravelGroup> findCompletesTravelGroups(Pageable pageable) {
+        Page<TravelGroup> travelGroupsPages = travelGroupRepository.findByCompleteAndNegotiationIsOver(true ,false,pageable);
+        if(!travelGroupsPages.hasContent()){
+            throw new NoCompleteTravelGroupsException("There are no fully booked travel groups");
+        }
+        return travelGroupsPages;
+
+    }
+
+    @Override
+    @Transactional
+    public String markTravelGroupAsNegotiated(Long travelGroupId) {
+        TravelGroup travelGroup = travelGroupRepository.getReferenceById(travelGroupId);
+        travelGroup.setNegotiationIsOver(true);
+        for (User user : travelGroup.getTravelers()){
+            String msg = "Felicidades, hemos llegado a un acuerdo para que tu y tus compañeros de viaje se dirigan a "+ travelGroup.getDestination()
+                    +" con una agencia," +
+                    " En el transcurso del dia se estaran comunicando con ustedes";
+                notificationService.saveNotification(msg,user);
+        }
+        return "Travel group has been negotiated, travelers will be notified";
     }
 
     private void updateTravelGroupInfo(TravelGroup travelGroup, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {

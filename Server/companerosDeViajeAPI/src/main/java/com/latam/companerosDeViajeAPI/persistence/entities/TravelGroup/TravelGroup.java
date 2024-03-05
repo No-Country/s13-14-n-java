@@ -37,4 +37,6 @@ public class TravelGroup {
     )
     private List<Interest> interests;
     private Integer minimumNumberOfMembers;
+    private Boolean complete = false;
+    private Boolean negotiationIsOver = false;
 }

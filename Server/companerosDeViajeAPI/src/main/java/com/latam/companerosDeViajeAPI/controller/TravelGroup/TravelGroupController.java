@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
@@ -336,5 +337,70 @@ public class TravelGroupController {
     @GetMapping("/{id}")
     public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@PathVariable Long id){
         return ResponseEntity.ok(travelGroupServiceImp.findTravelGroupById(id));
+    }
+    @Operation(
+            summary = "Endpoint que retorna todos los datos de todos los grupos de viaje(Travel Group) que llegaron a su minimo de viajeros",
+            description = "Endpoint que retorna todos los datos de todos los grupos de viaje(Travel Group) que llegaron a su minimo de viajeros. Este endpoint solo puede ser consultado por usuarios registrados , logueados y con role de admin, y requiere para su autenticación del ingreso del JWT que se obtiene al loguearse.",
+            method = "GET",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Success. En caso de éxito, el resultado de la consulta se retorna páginado, es decir que la lista total se divide en páginas, comenzando en la página 0. Cada página retorna una lista del objeto paginado, de acuerdo a los parámetros que se hayan seleccionado. \n" +
+                                    "Retorna un objeto, que dentro del atributo content, retorna una lista de objetos Travel Group con sus datos. También retorna atributos extra sobre la petición. " +
+                                    "Si no se encuentra ningún grupo con los parámetros ingresados, la lista retorna vaćía. Si no se colocan parámetros opcionales, el endpoint retorna todos los grupos de viaje de la base de datos. Los parámetros opcionales que no se van a utilizar no deben ingresarse en la consulta. " +
+                                    "En caso de ingresarse, ya sea vacíos o nulos, la búsqueda se realizará con esos valores según corresponda" +
+                                    "El atributo totalPages devuelve la cantidad de páginas en total que se encontraron. El atributo totalElements devuelve la cantidad total de travel grups(grupos de viaje" +
+                                    ") encontrados con los parámetros ingresados",
+                            content = @Content(schema = @Schema(implementation = TravelGroupInfoDto.class,
+                                    contentMediaType = MediaType.APPLICATION_JSON_VALUE
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "No Content. En caso de no haber grupos de viaje con el minimo de viajeros.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    )}
+    )
+    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "find-completes-travel-groups")
+    public ResponseEntity <Page<TravelGroupInfoDto>> findCompletesTravelGroups(Pageable pageable){
+        return ResponseEntity.ok(travelGroupServiceImp.findCompletesTravelGroups(pageable)
+                .map(TravelGroupMapper :: travelGroupToTravelGroupInfoDTO));
+
+    }
+    @Operation(
+            summary = "Endpoint que marca un travelGroup como negociado y avisa a todos los viajeros que se llego a un acuerdo con una agencia",
+            description = "Endpoint que retorna todos los datos de todos los grupos de viaje(Travel Group) que llegaron a su minimo de viajeros. Este endpoint solo puede ser consultado por usuarios registrados , logueados y con role de admin, y requiere para su autenticación del ingreso del JWT que se obtiene al loguearse.",
+            method = "PUT",
+            parameters = {
+                    @Parameter(name = "groupId", description = "Campo numérico donde debe enviarse el id del grupo que se desea marcar como negociado. "
+                             , example = "1"),
+            },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Success. retorna un mensaje que indica que el grupo ha sido negociado y que se les notificara a los usuarios",
+                            content = @Content(schema = @Schema(implementation = TravelGroupInfoDto.class,
+                                    contentMediaType = MediaType.APPLICATION_JSON_VALUE
+                            ))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden. En caso de no contar con los permisos necesarios o cuando existen excepciones no controladas devuelve un error de permisos.",
+                            content = @Content(schema = @Schema(implementation = RestResponseEntityExceptionHandler.class
+                            ))
+                    )}
+    )
+    @Secured("ROLE_ADMIN")
+    @PutMapping(value = "mark-as-negotiated")
+    public ResponseEntity<String> markTravelGroupAsNegotiated(@RequestParam Long groupId){
+        return ResponseEntity.ok(travelGroupServiceImp.markTravelGroupAsNegotiated(groupId));
     }
 }
