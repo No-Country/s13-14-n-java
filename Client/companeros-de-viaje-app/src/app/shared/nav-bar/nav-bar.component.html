@@ -4,26 +4,32 @@
   aria-label="Thirteenth navbar example"
 >
   <div
-    class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex md:align-items-center md:justify-content-between relative"
+    class="bg-white py-3 px-2 sm:px-3 xl:px-4 shadow-1 flex flex-wrap align-items-center justify-content-between relative"
   >
     <div
-      class="w-3 font-bold md:flex md:align-items-center md:justify-content-center"
+      class="w-12 sm:w-3 font-bold flex align-items-center justify-content-center"
     >
-      <img src="./assets/svg/log.svg" alt="Logo" class="w-12" />
+      <a routerLink="/cdv/home"
+        ><img src="./assets/svg/log.svg" alt="Logo" class="w-12"
+      /></a>
     </div>
     <div
-      class="w-6 font-bold md:flex md:align-items-center md:justify-content-center"
+      class="w-4 sm:w-6 font-bold flex align-items-center justify-content-center"
       id="navbarsExample11"
     >
-      <button class="button-nabvar" routerLink="/cdv/home">Inicio</button>
+      <button class="hidden sm:block button-nabvar" routerLink="/cdv/home">
+        Inicio
+      </button>
       <button class="button-nabvar" (click)="onSearch()">Buscar</button>
-      <button class="button-nabvar" routerLink="/cdv/about-us">
+      <button class="hidden sm:block button-nabvar" routerLink="/cdv/about-us">
         Sobre Nosotros
       </button>
-      <button class="button-nabvar" routerLink="/cdv/contact">Contacto</button>
+      <button class="hidden sm:block button-nabvar" routerLink="/cdv/contact">
+        Contacto
+      </button>
     </div>
     <div
-      class="w-3 font-bold md:flex md:align-items-center md:justify-content-around"
+      class="w-8 sm:w-3 font-bold flex align-items-center justify-content-around"
     >
       <button
         class="button-su-li"
@@ -39,12 +45,13 @@
       >
         Registrarse
       </button>
-      <p-button
-        label="Logout"
-        styleClass="p-button-sm p-button-outlined"
+      <button
+        class="button-su-li"
         [ngClass]="{ hidden: !showLogoutBtn }"
-        (onClick)="showLogoutDialog()"
-      ></p-button>
+        (click)="showLogoutDialog()"
+      >
+        Logout
+      </button>
     </div>
   </div>
 </nav>
@@ -52,7 +59,7 @@
 
 <p-dialog
   [(visible)]="displayLogout"
-  [breakpoints]="{ '960px': '50vw' }"
+  [breakpoints]="{ '960px': '90vw' }"
   [style]="{ width: '25vw' }"
   [draggable]="false"
   [resizable]="false"

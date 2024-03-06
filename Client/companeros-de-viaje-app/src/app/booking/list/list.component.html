@@ -1,5 +1,5 @@
 <div
-  class="py-2 px-2 flex align-items-center shadow-5 my-4 mx-8 border-round-xl"
+  class="py-2 px-2 my-4 mx-3 sm:mx-8 flex align-items-center shadow-5 border-round-xl"
 >
   <div class="flex flex-wrap border-round w-full">
     <div
@@ -66,7 +66,7 @@
       class="w-12 sm:w-2 font-bold p-2 flex align-items-center justify-content-center sm:justify-content-start"
     >
       <button
-        class="cursor-pointer w-12 h-full bg-cyan-600 hover:bg-cyan-700 border-none border-round-xl"
+        class="cursor-pointer p-3 w-12 h-full bg-cyan-600 hover:bg-cyan-700 border-none border-round-xl"
         (click)="onFilterGroups()"
       >
         Buscar
@@ -78,64 +78,47 @@
   class="py-3 px-3 sm:px-6 xl:px-8 flex flex-wrap align-items-center justify-content-center relative"
 >
   <div class="w-12 flex align-items-center pb-3 pl-4">
-    <div class="text-left text-900 text-3xl font-medium">Resultados</div>
-  </div>
-  <div class="w-12 flex flex-wrap align-content-start">
-    <div class="w-3 flex flex-column px-4 pb-4">
-      <div
-        class="w-12 shadow-4 surface-card border-round-sm flex flex-column align-items-center justify-content-center"
-      >
-        <div
-          class="w-12 border-round p-3 flex align-items-center bg-primary-50"
-        >
-          <span class="px-1 font-medium text-xl">Intereses</span>
-        </div>
-        <div
-          class="w-12 border-round px-3 py-3 flex flex-column align-items-start"
-        >
-          <div class="field-checkbox" *ngFor="let item of interests">
-            <p-checkbox
-              name="group1"
-              [value]="item.name"
-              inputId="ny"
-            ></p-checkbox>
-            <label for="ny">{{ item.name }}</label>
-          </div>
-        </div>
-      </div>
+    <div class="text-left text-900 text-3xl font-medium">
+      {{ groups.length }} Resultados
     </div>
-    <div class="w-9">
+  </div>
+  <div class="w-12">
+    <div class="w-12 flex flex-wrap">
       <div
-        class="w-12 flex flex-wrap align-items-center justify-content-center"
+        class="w-12 sm:w-4 p-2"
+        *ngFor="let item of groups"
+        [routerLink]="'/book/detail/' + item.id"
       >
         <div
-          class="w-5 m-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 hover:shadow-5"
-          *ngFor="let item of groups"
-          [routerLink]="'/book/detail/' + item.id"
+          class="flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 hover:shadow-5"
         >
           <div
-            class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+            class="w-12 p-2 sm:p-3 flex flex-wrap align-items-center border-round-top-2xl bg-cyan-100"
           >
-            <div class="w-6 text-xl flex align-items-center font-medium">
+            <div
+              class="w-12 sm:w-6 py-1 sm:py-0 text-xl flex align-items-center font-medium"
+            >
               {{ item.destination }}
             </div>
             <div
-              class="w-6 text-base flex align-items-center text-600 justify-content-end"
+              class="w-12 sm:w-6 py-1 sm:py-0 text-base flex align-items-center text-600 justify-content-end"
             >
               {{ item.departureDate | extractDate }} al
               {{ item.returnDate | extractDate }}
             </div>
           </div>
-          <div class="w-12 text-base p-3 text-600">
+          <div class="w-12 text-base p-2 sm:p-3 text-600 px-3">
             {{ item.itinerary }}
           </div>
-          <div class="w-12 flex border-round py-2 px-3">
-            <div class="w-6 text-base flex align-items-center text-600">
+          <div class="w-12 flex flex-wrap border-round py-2 px-3">
+            <div
+              class="w-12 sm:w-6 py-1 sm:py-0 text-base flex align-items-center text-600"
+            >
               <span class="font-semibold">Mínimo de integrantes:</span>
               <span>{{ item.minimumNumberOfMembers }}</span>
             </div>
             <div
-              class="w-6 text-base flex align-items-center text-600 justify-content-end"
+              class="w-12 sm:w-6 py-1 sm:py-0 text-base flex align-items-center text-600 sm:justify-content-end"
             >
               <span class="font-semibold">Integrantes actuales:</span>
               {{ item.totalTravelers }}
@@ -150,3 +133,27 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="w-3 flex flex-column px-4 pb-4">
+  <div
+    class="w-12 shadow-4 surface-card border-round-sm flex flex-column align-items-center justify-content-center"
+  >
+    <div
+      class="w-12 border-round p-3 flex align-items-center bg-primary-50"
+    >
+      <span class="px-1 font-medium text-xl">Intereses</span>
+    </div>
+    <div
+      class="w-12 border-round px-3 py-3 flex flex-column align-items-start"
+    >
+      <div class="field-checkbox" *ngFor="let item of interests">
+        <p-checkbox
+          name="group1"
+          [value]="item.name"
+          inputId="ny"
+        ></p-checkbox>
+        <label for="ny">{{ item.name }}</label>
+      </div>
+    </div>
+  </div>
+</div> -->

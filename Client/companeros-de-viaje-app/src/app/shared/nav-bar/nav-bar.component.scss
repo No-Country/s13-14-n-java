@@ -26,7 +26,7 @@
 
 // Botones LogIn SingUp
 .button-su-li {
-  padding: 1.3em 3em;
+  padding: 1.5em 2em;
   font-size: 8px;
   margin: 1px;
   text-transform: uppercase;
@@ -47,4 +47,42 @@
   box-shadow: 0px 15px 20px rgb(00, 170, 167);
   color: #fff;
   transform: translateY(-7px);
+}
+
+:host ::ng-deep {
+  $primary-color: #00a0b1;
+  $primary-hover-color: #007d8a;
+  $text-color: #ffffff;
+  $border-color: $primary-color;
+
+  .p-button,
+  .p-buttonset > .p-button,
+  .p-splitbutton > .p-button {
+    &.p-button-secondary {
+      color: $text-color;
+      background: $primary-color;
+      border: 1px solid $border-color;
+
+      &:enabled:hover {
+        background: $primary-hover-color;
+        border-color: $primary-hover-color;
+      }
+    }
+  }
+  .p-button.p-button-outlined {
+    background-color: transparent;
+    color: #00a0b1;
+    border: 1px solid #00a0b1;
+
+    &:enabled:hover {
+      color: $primary-hover-color;
+      border-color: $primary-hover-color;
+    }
+  }
+
+  p-inputnumber,
+  .p-inputnumber {
+    display: inline-flex;
+    width: 100%;
+  }
 }

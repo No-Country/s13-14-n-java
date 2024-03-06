@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="w-8 flex flex-wrap align-items-center justify-content-center">
-    <div class="w-6 py-4">
+    <div class="w-6 py-4 hidden sm:block">
       <div
         class="h-30rem w-full flex align-items-center justify-content-end border-round-2xl overflow-hidden"
       >
@@ -18,8 +18,8 @@
         />
       </div>
     </div>
-    <div class="w-6 p-5">
-      <div class="p-4 w-full">
+    <div class="w12 sm:w-6 sm:p-5">
+      <div class="w-full">
         <form autocomplete="off" [formGroup]="pRegForm" (submit)="onSubmit()">
           <div class="text-800 font-medium py-2">
             <label for="address" class="block text-900 font-medium py-2"

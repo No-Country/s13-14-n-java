@@ -5,49 +5,57 @@
   <div
     class="w-12 p-2 flex flex-wrap align-items-center justify-content-center"
   >
-    <div class="w-8 flex align-items-center justify-content-between">
-      <div class="w-6 m-3 text-900 text-3xl font-semibold">Mis Grupos</div>
-      <p-button
-        label="Explorar Grupos"
-        styleClass="p-button-sm p-button-outlined"
-        routerLink="/book/list"
-      ></p-button>
-      <p-button
-        label="Crear Grupo"
-        styleClass="p-button-sm p-button-secondary"
-        routerLink="/book/new-group"
-      ></p-button>
+    <div
+      class="w-12 sm:w-8 flex flex-wrap align-items-center justify-content-between"
+    >
+      <div class="w-12 sm:w-6 text-900 text-3xl font-semibold">Mis Grupos</div>
+      <div class="w-12 sm:w-6 flex align-items-center justify-content-between">
+        <p-button
+          label="Explorar Grupos"
+          styleClass="p-button-sm p-button-outlined"
+          routerLink="/book/list"
+        ></p-button>
+        <p-button
+          label="Crear Grupo"
+          styleClass="p-button-sm p-button-secondary"
+          routerLink="/book/new-group"
+        ></p-button>
+      </div>
     </div>
   </div>
   <div class="w-12 flex flex-wrap align-items-center justify-content-center">
     <div
-      class="w-4 m-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 hover:shadow-5"
+      class="w-11 sm:w-4 m-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 hover:shadow-5"
       *ngFor="let item of groups"
       [routerLink]="'/book/detail/' + item.id"
     >
       <div
-        class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
+        class="w-12 p-2 sm:p-3 flex flex-wrap align-items-center border-round-top-2xl bg-cyan-100"
       >
-        <div class="w-6 text-xl flex align-items-center font-medium">
+        <div
+          class="w-12 sm:w-6 py-1 sm:py-0 text-xl flex align-items-center font-medium"
+        >
           {{ item.destination }}
         </div>
         <div
-          class="w-6 text-base flex align-items-center text-600 justify-content-end"
+          class="w-12 sm:w-6 py-1 sm:py-0 text-base flex align-items-center text-600 justify-content-end"
         >
           {{ item.departureDate | extractDate }} al
           {{ item.returnDate | extractDate }}
         </div>
       </div>
-      <div class="w-12 text-base p-3 text-600">
+      <div class="w-12 text-base p-2 sm:p-3 text-600 px-3">
         {{ item.itinerary }}
       </div>
-      <div class="w-12 flex border-round py-2 px-3">
-        <div class="w-6 text-base flex align-items-center text-600">
+      <div class="w-12 flex flex-wrap border-round py-2 px-3">
+        <div
+          class="w-12 sm:w-6 py-1 sm:py-0 text-base flex align-items-center text-600"
+        >
           <span class="font-semibold">Mínimo de integrantes:</span>
           <span>{{ item.minimumNumberOfMembers }}</span>
         </div>
         <div
-          class="w-6 text-base flex align-items-center text-600 justify-content-end"
+          class="w-12 sm:w-6 py-1 sm:py-0 text-base flex align-items-center text-600 sm:justify-content-end"
         >
           <span class="font-semibold">Integrantes actuales:</span>
           {{ item.totalTravelers }}
@@ -60,3 +68,4 @@
     </div>
   </div>
 </div>
+<app-footer></app-footer>

@@ -1,5 +1,5 @@
 // Footer
-.footer{
+.footer {
   opacity: 1;
   background-color: rgb(00, 170, 167);
   color: rgb(00, 170, 167);
@@ -16,7 +16,7 @@
   font-weight: 600;
   padding: 1em 2em;
   letter-spacing: 1.5px;
-  margin: 4px;
+  margin: 2px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   border: 1px;
@@ -33,25 +33,25 @@
 
 // Social Links
 .buttons {
-    min-width: 100px;
-    display: flex;
-  }
+  min-width: 100px;
+  display: flex;
+}
 
 .buttons a {
-    margin-left: 20px;
-    margin-bottom: 20px;
-    text-decoration: none;
-    font-size: 25px;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    background: rgb(00, 170, 167);
-    color: #000000;
-    border-radius: 50%;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .5);
-    transition: all .4s ease-in-out;
-  }
+  margin-left: 20px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  font-size: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  background: rgb(00, 170, 167);
+  color: #000000;
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s ease-in-out;
+}
 
-  .buttons a:hover {
-    transform: scale(1.2);
-  }
+.buttons a:hover {
+  transform: scale(1.2);
+}

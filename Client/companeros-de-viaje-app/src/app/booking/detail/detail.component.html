@@ -4,45 +4,51 @@
   <div
     class="w-12 p-2 flex flex-wrap align-items-center justify-content-center"
   >
-    <div class="w-8 flex align-items-center justify-content-between">
-      <div class="w-5 m-3 text-900 text-3xl font-semibold">
+    <div
+      class="w-12 sm:w-8 flex flex-wrap align-items-center justify-content-between"
+    >
+      <div class="w-12 sm:w-5 text-900 text-3xl font-semibold">
         {{ group?.destination }}
       </div>
-      <div class="w-7 flex align-items-center justify-content-end">
+      <div
+        class="w-12 sm:w-7 flex align-items-center justify-content-end gap-3"
+      >
         <p-button
           label="Explorar Grupos"
-          styleClass="p-button-sm p-button-outlined mx-2"
+          styleClass="p-button-sm p-button-outlined"
           routerLink="/book/list"
         ></p-button>
         <p-button
           label="Unirse"
-          styleClass="p-button-sm p-button-secondary mx-2"
+          styleClass="p-button-sm p-button-secondary"
           (click)="showJoinDialog()"
           [ngClass]="{ hidden: showJoinBtn }"
         ></p-button>
         <p-button
           label="Editar"
-          styleClass="p-button-sm  p-button-help mx-2"
+          styleClass="p-button-sm  p-button-help"
           [ngClass]="{ hidden: !showEditBtn }"
           [routerLink]="'/book/edit/' + editId"
         ></p-button>
         <p-button
           label="Invitar"
-          styleClass="p-button-sm p-button-success mx-2"
+          styleClass="p-button-sm p-button-success"
         ></p-button>
         <p-button
           label="Abandonar"
-          styleClass="p-button-sm  p-button-warning mx-2"
+          styleClass="p-button-sm  p-button-warning"
           (click)="showLeaveDialog()"
           [ngClass]="{ hidden: !showLeaveBtn }"
         ></p-button>
       </div>
     </div>
   </div>
-  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
-    <div class="w-8 my-3 flex flex-wrap justify-content-between">
+  <div
+    class="w-12 flex flex-wrap align-items-center justify-content-center my-2"
+  >
+    <div class="w-12 sm:w-8 flex flex-wrap justify-content-between">
       <div
-        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+        class="w-12 sm:w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 my-2"
       >
         <div
           class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
@@ -58,12 +64,12 @@
         </div>
       </div>
       <div
-        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+        class="w-12 sm:w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 my-2"
       >
         <div
           class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
         >
-          <div class="w-6 text-xl flex align-items-center font-medium">
+          <div class="w-12 text-xl flex align-items-center font-medium">
             Fecha finalización
           </div>
         </div>
@@ -75,10 +81,12 @@
       </div>
     </div>
   </div>
-  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
-    <div class="w-8 my-3 flex flex-wrap justify-content-between">
+  <div
+    class="w-12 flex flex-wrap align-items-center justify-content-center mb-2"
+  >
+    <div class="w-12 sm:w-8 flex flex-wrap justify-content-between">
       <div
-        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+        class="w-12 sm:w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 mb-3"
       >
         <div
           class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
@@ -94,7 +102,7 @@
         </div>
       </div>
       <div
-        class="w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+        class="w-12 sm:w-5 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 mb-2"
       >
         <div
           class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
@@ -111,9 +119,11 @@
       </div>
     </div>
   </div>
-  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+  <div
+    class="w-12 flex flex-wrap align-items-center justify-content-center mb-2"
+  >
     <div
-      class="w-8 my-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      class="w-12 sm:w-8 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 mb-2"
     >
       <div
         class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
@@ -127,9 +137,11 @@
       </div>
     </div>
   </div>
-  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+  <div
+    class="w-12 flex flex-wrap align-items-center justify-content-center mb-2"
+  >
     <div
-      class="w-8 my-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      class="w-12 sm:w-8 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100 mb-2"
     >
       <div
         class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
@@ -149,9 +161,11 @@
       </div>
     </div>
   </div>
-  <div class="w-12 flex flex-wrap align-items-center justify-content-center">
+  <div
+    class="w-12 flex flex-wrap align-items-center justify-content-center mb-2"
+  >
     <div
-      class="w-8 my-3 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
+      class="w-12 sm:w-8 flex flex-column align-items-center border-1 border-round-2xl border-cyan-100"
     >
       <div
         class="w-12 p-3 flex align-items-center border-round-top-2xl bg-cyan-100"
@@ -164,13 +178,12 @@
         class="w-12 text-base p-3 text-600 flex flex-wrap align-items-center justify-content-center"
       >
         <div
-          class="w-11 m-1 flex bg-cyan-50 border-round-xl"
+          class="w-12 sm:w-11 m-1 flex bg-cyan-50 border-round-xl"
           *ngFor="let item of group?.travelers"
         >
           <div class="w-4 flex align-items-center justify-content-center">
             <p-avatar
               [label]="item.name | firstChar"
-              styleClass="mr-2"
               size="large"
               [style]="{ 'background-color': '#00a0b1', color: '#ffffff' }"
               shape="circle"
@@ -195,7 +208,7 @@
 
 <p-dialog
   [(visible)]="displayJoin"
-  [breakpoints]="{ '960px': '50vw' }"
+  [breakpoints]="{ '960px': '90vw' }"
   [style]="{ width: '25vw' }"
   [draggable]="false"
   [resizable]="false"
@@ -230,7 +243,7 @@
 
 <p-dialog
   [(visible)]="displayLeave"
-  [breakpoints]="{ '960px': '50vw' }"
+  [breakpoints]="{ '960px': '90vw' }"
   [style]="{ width: '25vw' }"
   [draggable]="false"
   [resizable]="false"
