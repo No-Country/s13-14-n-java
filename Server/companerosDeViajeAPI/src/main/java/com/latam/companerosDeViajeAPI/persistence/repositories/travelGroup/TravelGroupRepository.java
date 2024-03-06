@@ -13,38 +13,39 @@ import java.time.LocalDateTime;
 @Repository
 public interface TravelGroupRepository extends JpaRepository<TravelGroup, Long> {
 
-    Page<TravelGroup> findByDestinationAndDepartureDateAndReturnDateAndBudget(Pageable pageable, String destination, LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget);
+    Page<TravelGroup> findByDestinationAndDepartureDateAndReturnDateAndBudgetAndNegotiationIsOver(Pageable pageable, String destination, LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestinationAndDepartureDateAndReturnDate(Pageable pageable, String destination, LocalDateTime departureDate, LocalDateTime returnDate);
+    Page<TravelGroup> findByDestinationAndDepartureDateAndReturnDateAndNegotiationIsOver(Pageable pageable, String destination, LocalDateTime departureDate, LocalDateTime returnDate, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestinationAndDepartureDateAndBudget(Pageable pageable, String destination, LocalDateTime departureDate, BigDecimal budget);
+    Page<TravelGroup> findByDestinationAndDepartureDateAndBudgetAndNegotiationIsOver(Pageable pageable, String destination, LocalDateTime departureDate, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestinationAndReturnDateAndBudget(Pageable pageable, String destination, LocalDateTime returnDate, BigDecimal budget);
+    Page<TravelGroup> findByDestinationAndReturnDateAndBudgetAndNegotiationIsOver(Pageable pageable, String destination, LocalDateTime returnDate, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDepartureDateAndReturnDateAndBudget(Pageable pageable, LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget);
+    Page<TravelGroup> findByDepartureDateAndReturnDateAndBudgetAndNegotiationIsOver(Pageable pageable, LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestinationAndDepartureDate(Pageable pageable, String destination, LocalDateTime departureDate);
+    Page<TravelGroup> findByDestinationAndDepartureDateAndNegotiationIsOver(Pageable pageable, String destination, LocalDateTime departureDate, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestinationAndReturnDate(Pageable pageable, String destination, LocalDateTime returnDate);
+    Page<TravelGroup> findByDestinationAndReturnDateAndNegotiationIsOver(Pageable pageable, String destination, LocalDateTime returnDate, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestinationAndBudget(Pageable pageable, String destination, BigDecimal budget);
+    Page<TravelGroup> findByDestinationAndBudgetAndNegotiationIsOver(Pageable pageable, String destination, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDepartureDateAndReturnDate(Pageable pageable, LocalDateTime departureDate, LocalDateTime returnDate);
+    Page<TravelGroup> findByDepartureDateAndReturnDateAndNegotiationIsOver(Pageable pageable, LocalDateTime departureDate, LocalDateTime returnDate, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDepartureDateAndBudget(Pageable pageable, LocalDateTime departureDate, BigDecimal budget);
+    Page<TravelGroup> findByDepartureDateAndBudgetAndNegotiationIsOver(Pageable pageable, LocalDateTime departureDate, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByReturnDateAndBudget(Pageable pageable, LocalDateTime returnDate, BigDecimal budget);
+    Page<TravelGroup> findByReturnDateAndBudgetAndNegotiationIsOver(Pageable pageable, LocalDateTime returnDate, BigDecimal budget, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDestination(Pageable pageable, String destination);
+    Page<TravelGroup> findByDestinationAndNegotiationIsOver(Pageable pageable, String destination, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByDepartureDate(Pageable pageable, LocalDateTime departureDate);
+    Page<TravelGroup> findByDepartureDateAndNegotiationIsOver(Pageable pageable, LocalDateTime departureDate, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByReturnDate(Pageable pageable, LocalDateTime returnDate);
+    Page<TravelGroup> findByReturnDateAndNegotiationIsOver(Pageable pageable, LocalDateTime returnDate, Boolean negotiationIsOver);
 
-    Page<TravelGroup> findByBudget(Pageable pageable, BigDecimal budget);
+    Page<TravelGroup> findByBudgetAndNegotiationIsOver(Pageable pageable, BigDecimal budget, Boolean negotiationIsOver);
 
     Page<TravelGroup> findByOwner(Pageable pageable, User Owner);
 
     Page<TravelGroup> findByCompleteAndNegotiationIsOver(boolean complete, boolean negotiationIsOver, Pageable pageable);
 
+    Page<TravelGroup> findByNegotiationIsOver(Pageable pageable, boolean b);
 }

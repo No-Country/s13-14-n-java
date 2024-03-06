@@ -70,6 +70,8 @@ public class TravelGroupServiceImp implements TravelGroupService{
         travelGroup.setTravelers(new ArrayList<>());
         travelGroup.getTravelers().add(owner);
         travelGroup.setInterests(interests);
+        travelGroup.setComplete(false);
+        travelGroup.setNegotiationIsOver(false);
         //save travelGroup
         TravelGroup travelGroupCreated =  travelGroupRepository.save(travelGroup);
         notificationService.SendNotificationToAllUsersWithMatchingInterestInTravelGroupCreated(travelGroupCreated);
@@ -82,51 +84,51 @@ public class TravelGroupServiceImp implements TravelGroupService{
     public Page<TravelGroup> findTravelGroups(Pageable pageable, String destination
             , LocalDateTime departureDate, LocalDateTime returnDate, BigDecimal budget) {
         if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDateAndBudget(pageable, destination, departureDate, returnDate, budget);
+            return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDateAndBudgetAndNegotiationIsOver(pageable, destination, departureDate, returnDate, budget, false);
         }
         if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(returnDate) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDate(pageable, destination, departureDate, returnDate);
+            return travelGroupRepository.findByDestinationAndDepartureDateAndReturnDateAndNegotiationIsOver(pageable, destination, departureDate, returnDate, false);
         }
         if(isNotNull(destination) && isNotNull(departureDate) && isNotNull(budget) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndDepartureDateAndBudget(pageable, destination, departureDate, budget);
+            return travelGroupRepository.findByDestinationAndDepartureDateAndBudgetAndNegotiationIsOver(pageable, destination, departureDate, budget, false);
         }
         if(isNotNull(destination) && isNotNull(returnDate) && isNotNull(budget) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndReturnDateAndBudget(pageable, destination, returnDate, budget);
+            return travelGroupRepository.findByDestinationAndReturnDateAndBudgetAndNegotiationIsOver(pageable, destination, returnDate, budget, false);
         }
         if(isNotNull(departureDate) && isNotNull(returnDate) && isNotNull(budget)){
-            return travelGroupRepository.findByDepartureDateAndReturnDateAndBudget(pageable , departureDate, returnDate, budget);
+            return travelGroupRepository.findByDepartureDateAndReturnDateAndBudgetAndNegotiationIsOver(pageable , departureDate, returnDate, budget, false);
         }
         if(isNotNull(destination) && isNotNull(departureDate) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndDepartureDate(pageable, destination, departureDate);
+            return travelGroupRepository.findByDestinationAndDepartureDateAndNegotiationIsOver(pageable, destination, departureDate, false);
         }
         if(isNotNull(destination) && isNotNull(returnDate) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndReturnDate(pageable, destination, returnDate);
+            return travelGroupRepository.findByDestinationAndReturnDateAndNegotiationIsOver(pageable, destination, returnDate, false);
         }
         if(isNotNull(destination) && isNotNull(budget) && !destination.isBlank()){
-            return travelGroupRepository.findByDestinationAndBudget(pageable, destination, budget);
+            return travelGroupRepository.findByDestinationAndBudgetAndNegotiationIsOver(pageable, destination, budget, false);
         }
         if(isNotNull(departureDate) && isNotNull(returnDate)){
-            return travelGroupRepository.findByDepartureDateAndReturnDate(pageable, departureDate, returnDate);
+            return travelGroupRepository.findByDepartureDateAndReturnDateAndNegotiationIsOver(pageable, departureDate, returnDate, false);
         }
         if(isNotNull(departureDate) && isNotNull(budget)){
-            return travelGroupRepository.findByDepartureDateAndBudget(pageable, departureDate, budget);
+            return travelGroupRepository.findByDepartureDateAndBudgetAndNegotiationIsOver(pageable, departureDate, budget, false);
         }
         if(isNotNull(returnDate) && isNotNull(budget)){
-            return travelGroupRepository.findByReturnDateAndBudget(pageable, returnDate, budget);
+            return travelGroupRepository.findByReturnDateAndBudgetAndNegotiationIsOver(pageable, returnDate, budget, false);
         }
         if(isNotNull(destination) && !destination.isBlank()){
-            return travelGroupRepository.findByDestination(pageable, destination);
+            return travelGroupRepository.findByDestinationAndNegotiationIsOver(pageable, destination, false);
         }
         if(isNotNull(departureDate)){
-            return travelGroupRepository.findByDepartureDate(pageable, departureDate);
+            return travelGroupRepository.findByDepartureDateAndNegotiationIsOver(pageable, departureDate, false);
         }
         if(isNotNull(returnDate)){
-            return travelGroupRepository.findByReturnDate(pageable, returnDate);
+            return travelGroupRepository.findByReturnDateAndNegotiationIsOver(pageable, returnDate, false);
         }
         if(isNotNull(budget)){
-            return travelGroupRepository.findByBudget(pageable, budget);
+            return travelGroupRepository.findByBudgetAndNegotiationIsOver(pageable, budget, false);
         }
-        return travelGroupRepository.findAll(pageable);
+        return travelGroupRepository.findByNegotiationIsOver(pageable, false);
     }
     public boolean isNotNull(Object o){
         return o != null;
@@ -136,7 +138,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
     @Transactional
     public TravelGroupInfoDto addUserToTravelGroup(Long groupId, HttpServletRequest request) {
         User userToAdd = findUserByToken(request);
-        validateGoupById(groupId);
+        validateGroupById(groupId);
         TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
         validateAddedUserData(userToAdd, travelGroup);
         travelGroup.getTravelers().add(userToAdd);
@@ -150,12 +152,15 @@ public class TravelGroupServiceImp implements TravelGroupService{
     @Transactional
     public TravelGroupInfoDto leaveTravelGroup(Long groupId, HttpServletRequest request) {
         User user = findUserByToken(request);
-        validateGoupById(groupId);
+        validateGroupById(groupId);
         TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
         validateTravelGroupAbandonmentData(user, travelGroup);
         travelGroup.getTravelers().removeIf(u -> user.getId().equals(u.getId()));
         if(isOwner(user.getId(), travelGroup.getOwner().getId())&&!travelGroup.getTravelers().isEmpty()){
                 travelGroup.setOwner(travelGroup.getTravelers().get(0));
+        }
+        if(travelGroup.getMinimumNumberOfMembers() > travelGroup.getTravelers().size()){
+            travelGroup.setComplete(false);
         }
         return TravelGroupMapper.travelGroupToTravelGroupInfoDTO(travelGroupRepository.save(travelGroup));
     }
@@ -177,7 +182,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
     @Transactional
     public TravelGroupInfoDto updateTravelGroup(Long groupId, HttpServletRequest request, UpdateTravelGroupInfoDto updateTravelGroupInfoDto) {
         User user = findUserByToken(request);
-        validateGoupById(groupId);
+        validateGroupById(groupId);
         TravelGroup travelGroup = travelGroupRepository.findById(groupId).get();
         validateTravelGroupUpdateData(user, travelGroup, updateTravelGroupInfoDto);
         updateTravelGroupInfo(travelGroup, updateTravelGroupInfoDto);
@@ -187,6 +192,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
 
     @Override
     public TravelGroupInfoDto findTravelGroupById(Long id) {
+        System.out.println("ID:::::::::: " + id);
         if(!isNotNull(id)){
             throw new BadDataEntryException("The id entered is invalid or null.", "id");
         }
@@ -270,6 +276,8 @@ public class TravelGroupServiceImp implements TravelGroupService{
         if (!isOwner(user.getId(), travelGroup.getOwner().getId())){
             throw  new IsNotOwnerException("Only the owner of a travel group can update their information.", "user");
         }
+        if(travelGroup.getNegotiationIsOver())
+            throw new TravelGroupClosedException("The travel group with id "+ travelGroup.getId() +" is closed and cannot be edited. This trip was negotiated with a travel company.", "groupId");
         LocalDateTime newDepartureDate = travelGroup.getDepartureDate();
         LocalDateTime newReturnDate = travelGroup.getReturnDate();
         boolean testDates= false;
@@ -314,6 +322,8 @@ public class TravelGroupServiceImp implements TravelGroupService{
     }
 
     private void validateTravelGroupAbandonmentData(User user, TravelGroup travelGroup) {
+        if(travelGroup.getNegotiationIsOver())
+            throw new TravelGroupClosedException("The travel group with id "+ travelGroup.getId() +" is closed and cannot be abandoned. This trip was negotiated with a travel company.", "groupId");
         if(travelGroup.getTravelers().contains(user)){
             return;
         }
@@ -321,7 +331,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
 
     }
 
-    private void validateGoupById(Long groupId) {
+    private void validateGroupById(Long groupId) {
         if(groupId==null)
             throw new BadDataEntryException("idGroup field cannot be empty or null", "groupId");
         if(!travelGroupRepository.existsById(groupId))
@@ -329,6 +339,8 @@ public class TravelGroupServiceImp implements TravelGroupService{
     }
 
     private void validateAddedUserData(User userToAdd, TravelGroup travelGroup) {
+        if(travelGroup.getNegotiationIsOver())
+            throw new TravelGroupClosedException("The travel group with id "+ travelGroup.getId() +" is closed. This trip was negotiated with a travel company.", "groupId");
         if(!isUser(userToAdd.getRole()))
             throw new UserNotValidException("Only those with the User role can join a travel group.");
         for (User u: travelGroup.getTravelers()) {
@@ -402,5 +414,14 @@ public class TravelGroupServiceImp implements TravelGroupService{
         }
         return false;
     }
-
+    @Transactional
+    public String completedNegotiatedFalse() {
+        List<TravelGroup> travelGroups = travelGroupRepository.findAll();
+        for (TravelGroup tg: travelGroups) {
+            tg.setComplete(false);
+            tg.setNegotiationIsOver(false);
+            travelGroupRepository.save(tg);
+        }
+        return "updated travel group list";
+    }
 }
