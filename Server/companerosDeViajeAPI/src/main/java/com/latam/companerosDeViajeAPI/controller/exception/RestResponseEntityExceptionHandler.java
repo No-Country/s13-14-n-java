@@ -129,5 +129,10 @@ public class RestResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getProcessor().currentName() , errorMsg));
     }
+    @ExceptionHandler(TravelGroupClosedException.class)
+    public ResponseEntity<ErrorResponseDto> TravelGroupClosedException(TravelGroupClosedException ex, WebRequest request){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto(ex.getField() , ex.getMessage()));
+    }
 }
 

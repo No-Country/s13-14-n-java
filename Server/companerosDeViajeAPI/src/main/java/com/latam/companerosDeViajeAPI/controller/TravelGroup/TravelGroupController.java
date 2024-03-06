@@ -334,8 +334,9 @@ public class TravelGroupController {
                             ))
                     )}
     )
-    @GetMapping("/{id}")
-    public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@PathVariable Long id){
+    @GetMapping("/")
+    public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@RequestParam Long id){
+        System.out.println("ID:::::::::: " + id);
         return ResponseEntity.ok(travelGroupServiceImp.findTravelGroupById(id));
     }
     @Operation(
@@ -402,5 +403,12 @@ public class TravelGroupController {
     @PutMapping(value = "mark-as-negotiated")
     public ResponseEntity<String> markTravelGroupAsNegotiated(@RequestParam Long groupId){
         return ResponseEntity.ok(travelGroupServiceImp.markTravelGroupAsNegotiated(groupId));
+    }
+    @Operation(
+            hidden = true
+    )
+    @PostMapping(value="completed-negotiated-false")
+    public String completedNegotiatedFalse(){
+        return travelGroupServiceImp.completedNegotiatedFalse();
     }
 }
