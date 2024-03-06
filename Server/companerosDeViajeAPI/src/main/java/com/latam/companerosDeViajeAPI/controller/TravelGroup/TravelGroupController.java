@@ -334,9 +334,9 @@ public class TravelGroupController {
                             ))
                     )}
     )
-    @GetMapping("/")
-    public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@RequestParam Long id){
-        System.out.println("ID:::::::::: " + id);
+    @GetMapping("{id}")
+    public ResponseEntity<TravelGroupInfoDto> findTravelGroupById(@PathVariable Long id){
+
         return ResponseEntity.ok(travelGroupServiceImp.findTravelGroupById(id));
     }
     @Operation(

@@ -192,7 +192,7 @@ public class TravelGroupServiceImp implements TravelGroupService{
 
     @Override
     public TravelGroupInfoDto findTravelGroupById(Long id) {
-        System.out.println("ID:::::::::: " + id);
+
         if(!isNotNull(id)){
             throw new BadDataEntryException("The id entered is invalid or null.", "id");
         }
