@@ -60,12 +60,12 @@ En ellos puedes ver:
 * La interacción con otros usuarios.
 
 Desde aquí puedes ver el Diseño a bajo nivel:
-* [PDF]
-* [PNG]
+* [PDF](documents/s13-14-n-java%20CompañerosDeViaje-Wireframe.pdf)
+* [PNG](documents/CompañerosDeViajewireframe.png)
 
 Desde aquí puedes ver el Diseño final
-* [PDF]
-* [PNG]
+* [PDF](documents/s13-14-n-java%20CompañerosDeViaje-final.pdf)
+* [PNG](documents/CompañerosDeViaje.png)
 ## Tech Stack
 
 ***CompañerosDeViaje*** esta basado en las siguientes tecnologías:
@@ -187,7 +187,7 @@ Conoce a las personas que hacen posible ***CompañerosDeViaje***:
 
 Esta documentación tiene como objetivo proporcionar información completa y detallada sobre el proyecto ***CompañerosDeViaje***.
 
-***Historias usuario y criterios aceptacion***: Este documento contiene las Historias de usuario y los criterios de aceptacion que conforman el minimo producto viable. Puede acceder a la ultima version desde [aquí].
+***Historias usuario y criterios aceptacion***: Este documento contiene las Historias de usuario y los criterios de aceptacion que conforman el minimo producto viable. Puede acceder a la ultima version desde [aquí](documents/historias%20usuario%20y%20criterios%20aceptacion-1.pdf).
 
 ***Plan de pruebas***: Este documento contiene la especificación del plan de pruebas a realizarse durante el desarrollo del proyecto. Puede acceder a la ultima version desde [aquí].
 ## API Reference
