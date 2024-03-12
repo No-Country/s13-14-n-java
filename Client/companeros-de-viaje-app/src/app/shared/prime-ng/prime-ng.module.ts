@@ -30,6 +30,9 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { CalendarModule } from 'primeng/calendar';
 import { CarouselModule } from 'primeng/carousel';
 import { PasswordModule } from 'primeng/password';
+import { TableModule } from 'primeng/table';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   exports: [
@@ -64,6 +67,9 @@ import { PasswordModule } from 'primeng/password';
     CalendarModule,
     CarouselModule,
     PasswordModule,
+    TableModule,
+    MessagesModule,
+    MessageModule,
   ],
 })
 export class PrimeNgModule {}

@@ -17,6 +17,11 @@ const routes: Routes = [
       import('./booking/booking.module').then((m) => m.BookingModule),
   },
   {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  {
     path: '404',
     component: Err404PageComponent,
   },

@@ -52,6 +52,13 @@
       >
         Logout
       </button>
+      <button
+        class="button-su-li"
+        [ngClass]="{ hidden: !showDashboardBtn }"
+        routerLink="/dashboard/list"
+      >
+        Dashboard
+      </button>
     </div>
   </div>
 </nav>

@@ -20,6 +20,10 @@ export class NavBarComponent implements OnInit {
     return this.authService.hasToken;
   }
 
+  public get showDashboardBtn(): boolean {
+    return this.authService.isAdmin;
+  }
+
   public onSearch() {
     if (this.authService.hasToken) {
       this.router.navigateByUrl('/book/home');

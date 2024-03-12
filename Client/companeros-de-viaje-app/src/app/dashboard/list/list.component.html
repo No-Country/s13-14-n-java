@@ -1,0 +1,76 @@
+<p-message
+  severity="info"
+  text="No hay grupos para mostrar"
+  *ngIf="groups.length === 0; else table"
+></p-message>
+<ng-template #table>
+  <div class="card">
+    <p-table [value]="groups" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="caption">
+        Listado de grupos completos
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th id="co-1">Destino</th>
+          <th id="co-2">F. inicio</th>
+          <th id="co-3">F. Finalización</th>
+          <th id="co-4">Miembros</th>
+          <th id="co-5"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-columns="columns">
+        <tr>
+          <td>{{ product.destination }}</td>
+          <td>{{ product.departureDate | extractDate }}</td>
+          <td>{{ product.returnDate | extractDate }}</td>
+          <td>
+            {{ product.minimumNumberOfMembers }}/{{ product.totalTravelers }}
+          </td>
+          <td>
+            <p-button
+              label="Concretar viaje"
+              (click)="showJoinDialog(product.id)"
+              styleClass="p-button-sm p-button-secondary"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-template>
+
+<p-dialog
+  [(visible)]="displayJoin"
+  [breakpoints]="{ '960px': '90vw' }"
+  [style]="{ width: '25vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="flex flex-column align-items-center justify-content-center">
+    <div class="w-10 flex align-items-center justify-content-center">
+      <i class="pi pi-user-plus text-cyan-300" style="font-size: 10rem"></i>
+    </div>
+    <div
+      class="w-10 flex flex-column align-items-center justify-content-center"
+    >
+      <p class="text-lg font-semibold my-1">¿Concretar viaje?</p>
+      <p class="text-500 my-1">
+        Si concreta el viaje para este grupo el mismo pasara a este estado y
+        todos los viajeros serán notificado.
+      </p>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button
+      (click)="displayJoin = false"
+      label="Cancelar"
+      styleClass="p-button-sm p-button-outlined"
+    ></p-button>
+    <p-button
+      (click)="onJoinGroup()"
+      label="Concretar"
+      styleClass="p-button-sm p-button-secondary"
+    ></p-button>
+  </ng-template>
+</p-dialog>

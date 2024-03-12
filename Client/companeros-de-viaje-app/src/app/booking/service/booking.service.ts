@@ -67,7 +67,7 @@ export class BookingService {
   }
 
   getDetailById(id: number): Observable<GroupResponse> {
-    return this.http.get<GroupResponse>(`${base_url}/travel-group/${id}`);
+    return this.http.get<GroupResponse>(`${base_url}/travel-group/?id=${id}`);
   }
 
   // travel-group/add-user?groupId=9
